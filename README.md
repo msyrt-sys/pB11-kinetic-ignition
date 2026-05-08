@@ -58,7 +58,7 @@ Principal results:
 Requires Python 3.10+ and standard scientific stack:
 
 ```bash
-git clone https://github.com/<USERNAME>/pB11-kinetic-ignition.git
+git clone https://github.com/msyrt-sys/pB11-kinetic-ignition.git
 cd pB11-kinetic-ignition
 pip install -r requirements.txt
 ```
