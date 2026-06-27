@@ -1,0 +1,3 @@
+cross_section,p_star_ignition_threshold,frac_box_sub_ignition,"peak_at_nominal(0.05,1.0)","peak_at_conservative(0.01,0.5)",thermal_only_peak
+TB,0.00000,0.0000,1.5003,1.1413,1.2000
+wang,0.01332,0.0456,1.2576,0.9567,1.0093
