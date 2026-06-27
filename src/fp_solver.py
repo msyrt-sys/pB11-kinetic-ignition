@@ -30,7 +30,7 @@ import numpy as np
 from scipy.sparse import diags, csc_matrix, eye as speye
 from scipy.sparse.linalg import spsolve
 
-from cross_sections import keV_to_erg, sigma_TB, barn_cm2
+from cross_sections import keV_to_erg, sigma_fusion, barn_cm2
 from collision_operators import (
     m_p_g, m_B_g, m_e_g, e_esu, Z_p, Z_B,
     D_total_thermal, F_total_thermal,
@@ -237,7 +237,7 @@ def fusion_burnout_rate(v, n_B):
     E_CM_erg = E_p_erg * m_B_g / (m_p_g + m_B_g)
     E_CM_keV = E_CM_erg / keV_to_erg
 
-    sigma_b = sigma_TB(E_CM_keV)  # barn
+    sigma_b = sigma_fusion(E_CM_keV)  # barn
     sigma_cm2 = sigma_b * barn_cm2
 
     # In the lab frame the relative velocity ≈ v (boron is much slower

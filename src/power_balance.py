@@ -170,14 +170,14 @@ def P_fusion_kinetic(v_grid, f_p, n_B_cm3, T_B_keV):
     P_F : float
         Fusion power, W/cm³
     """
-    from cross_sections import sigma_TB
+    from cross_sections import sigma_fusion
 
     # Lab-frame proton kinetic energy → CM energy
     E_p_erg = 0.5 * m_p_g * v_grid**2
     E_CM_erg = E_p_erg * m_B_g / (m_p_g + m_B_g)
     E_CM_keV = E_CM_erg / keV_to_erg
 
-    sigma_b = sigma_TB(E_CM_keV)
+    sigma_b = sigma_fusion(E_CM_keV)
     sigma_cm2 = sigma_b * barn_cm2
 
     # Reaction rate: ∫ 4π v² f_p · n_B · σ(v) · v dv

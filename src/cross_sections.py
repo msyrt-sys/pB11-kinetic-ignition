@@ -77,14 +77,18 @@ E_G_keV = (np.pi * alpha_fs * Z1 * Z2)**2 * 2 * mu_pB11_keV
 # MeV·b → keV·b is required.
 
 # --- S₁: 0 < E ≤ 400 keV ---
-# S₁(E) = C₀ + C₁·(E/1keV) + C₂·(E/1keV)² + A_L·(δE_L/2)² / [(E-E_L)² + (δE_L/2)²]
-# From TB Table 1 "This work" column:
-TB_C0  = 197.0          # MeV·b (C₀, same as NS)
-TB_C1  = 0.269          # MeV·b/keV (NS: 0.240)
-TB_C2  = 2.54e-4        # MeV·b/keV² (NS: 2.31e-4)
-# 148 keV resonance: TB column is "—" (not used)
-# The SW data missed the 148 keV resonance due to insufficient resolution,
-# so TB does not include it in S₁.
+# S₁(E) = C₀ + C₁·(E/1keV) + C₂·(E/1keV)² + A_L / [((E-E_L)/1keV)² + (δE_L/1keV)²]
+# From TB Table 1 "This work" column (verbatim, IOP open-access PDF):
+TB_C0  = 197.0          # MeV·b (C₀, fixed by continuity S2(E1)=S1(E1))
+TB_C1  = 0.269          # MeV·b   (NS: 0.240)
+TB_C2  = 2.54e-4        # MeV·b   (NS: 2.31e-4)
+# 148 keV narrow resonance: the "—" in TB's "This work" column means
+# "same value as Nevins-Swain" (the term is RETAINED, taken directly from
+# NS — see TB Eq. 2 argument list S1(E;C0,C1,C2,A_L,E_L,δE_L)), NOT dropped.
+# Bare-amplitude Lorentzian, width un-halved (confirmed from TB 2023 PDF).
+TB_AL  = 1.82e4         # MeV·b   (A_L, from NS)
+TB_EL  = 148.0          # keV     (E_L)
+TB_dEL = 2.35           # keV     (δE_L)
 
 # --- S₂: 400 < E ≤ 668 keV ---
 # S₂(E) = D₀ + D₁·(ΔE/100keV) + D₂·(ΔE/100keV)² + D₅·(ΔE/100keV)⁵
@@ -141,9 +145,10 @@ def S1_TB(E_keV):
     Output: MeV·b
     """
     E = np.atleast_1d(E_keV).astype(float)
-    # Polynomial background only (C_n in MeV·b)
-    # TB Table 1: A_L = E_L = δE_L = "—" (TB column)
+    # Polynomial background (C_n in MeV·b) + 148 keV NS resonance
+    # (bare-amplitude Lorentzian, retained from Nevins-Swain).
     S = TB_C0 + TB_C1 * E + TB_C2 * E**2
+    S = S + TB_AL / ((E - TB_EL)**2 + TB_dEL**2)
     return S
 
 
@@ -236,6 +241,78 @@ def sigma_TB(E_cm_keV):
 
 
 # ============================================================
+# WANG ET AL. (2026) — MODERN RE-EVALUATION [arXiv:2601.00241]
+# ============================================================
+#
+# Wang, Li, Wu & Cui (2026), "Revisiting p-11B Fusion: Updated Cross-
+# sections, Reactivity, and Energy Balance", arXiv:2601.00241. Same
+# three-segment S-factor structure as TB, but a newer global fit.
+# Verbatim Table 1 (coefficients in MeV·b; energies as noted). Same
+# bare-amplitude Lorentzian form: A_k / [((E-E_k)/keV)² + (δE_k/keV)²].
+#
+# This evaluation gives ⟨σv⟩(300 keV) = 3.63e-16 cm³/s, ~17% BELOW the TB
+# Table-1 value (4.37e-16). Wang reproduces the ~3.5e-16 reactivity that
+# the PoP referees cited as reference; the TB-vs-Wang gap is a genuine
+# difference between two published fits (mainly S2: D1=150 vs 102.4),
+# NOT a coding error.
+
+W_C0, W_C1, W_C2 = 197.0, 0.240, 2.31e-4                  # S1 polynomial
+W_AL, W_EL, W_dEL = 1.82e4, 148.0, 2.35                   # S1 148 keV resonance
+W_D0, W_D1, W_D2, W_D5 = 330.2, 102.436, -58.481, 0.0933  # S2 polynomial
+W_B = 0.209689                                            # S3 background
+W_A  = np.array([2.0235e6, 4.0102e6, 1.3220e6, 4.9451e6, 4.3430e5])  # MeV·b
+W_E  = np.array([622.2, 1388.4, 2492.4, 3528.6, 4703.6])            # keV
+W_dE = np.array([99.6, 449.9, 238.6, 398.5, 152.5])                 # keV
+W_E1, W_E2, W_E3 = 400.0, 700.0, 10000.0                  # boundaries (keV)
+
+
+def S_wang(E_keV):
+    """Wang 2026 piecewise S-factor (MeV·b). 5 Breit-Wigner resonances."""
+    E = np.atleast_1d(E_keV).astype(float)
+    S = np.zeros_like(E)
+    m1 = (E > 0) & (E <= W_E1)
+    m2 = (E > W_E1) & (E <= W_E2)
+    m3 = (E > W_E2) & (E <= W_E3)
+    S[m1] = (W_C0 + W_C1 * E[m1] + W_C2 * E[m1]**2
+             + W_AL / ((E[m1] - W_EL)**2 + W_dEL**2))
+    x = (E[m2] - W_E1) / 100.0
+    S[m2] = W_D0 + W_D1 * x + W_D2 * x**2 + W_D5 * x**5
+    s = np.full_like(E[m3], W_B)
+    for k in range(5):
+        s += W_A[k] / ((E[m3] - W_E[k])**2 + W_dE[k]**2)
+    S[m3] = s
+    return S
+
+
+def sigma_wang(E_cm_keV):
+    """Wang 2026 p-11B fusion cross section (barns). E_cm in keV (CM)."""
+    E = np.atleast_1d(E_cm_keV).astype(float)
+    sigma = np.zeros_like(E)
+    mask = E > 0.5
+    if np.any(mask):
+        sigma[mask] = (S_wang(E[mask]) / (E[mask] / 1000.0)) * \
+                      np.exp(-np.sqrt(E_G_keV / E[mask]))
+    return sigma
+
+
+# ============================================================
+# PRODUCTION CROSS-SECTION SELECTOR
+# ============================================================
+# "wang" (default): modern Wang 2026, gate-validated ⟨σv⟩(300)=3.63e-16.
+# "TB": Tentori-Belloni 2023 analytic Table 1, ⟨σv⟩(300)=4.37e-16 — the
+#       value used in the submitted manuscript (POP26-AR-00834).
+# Everything downstream (reactivity, kinetic P_F, ignition, ash) follows
+# this switch, so flipping it reproduces either the manuscript numbers
+# ("TB") or the corrected numbers ("wang").
+CROSS_SECTION = "wang"
+
+
+def sigma_fusion(E_cm_keV):
+    """Production p-11B fusion cross section, selected by CROSS_SECTION."""
+    return sigma_wang(E_cm_keV) if CROSS_SECTION == "wang" else sigma_TB(E_cm_keV)
+
+
+# ============================================================
 # TB REACTIVITY — MAXWELL-BOLTZMANN INTEGRATION
 # ============================================================
 
@@ -270,7 +347,7 @@ def sigma_v_TB_numerical(T_keV, E_max_keV=9760, n_points=10000):
         E_high = np.linspace(2000, E_max_keV, n_points // 2)
         E_grid = np.unique(np.concatenate([E_low, E_mid, E_high]))
 
-        sig_cm2 = sigma_TB(E_grid) * barn_cm2
+        sig_cm2 = sigma_fusion(E_grid) * barn_cm2
         E_erg = E_grid * keV_to_erg
         boltz = np.exp(-E_grid / T)
 
