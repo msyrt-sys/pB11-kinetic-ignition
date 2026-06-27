@@ -152,12 +152,15 @@ def build_maps(args):
     na_axis = np.linspace(args.na_min, args.na_max, args.na_points)
     fs_axis = np.linspace(args.fs_min, args.fs_max, args.fs_points)
 
-    # 1D p-grid spanning the box corners, log-spaced (enh varies smoothly in p)
-    p_lo = args.na_min * args.fs_min
+    # 1D p-grid spanning the box corners, log-spaced (enh varies smoothly in p).
+    # Handle fs_min=0 (Belloni-off floor): keep an explicit 0.0 node (= no alpha
+    # coupling) and start the log grid at a small positive floor.
     p_hi = args.na_max * args.fs_max
+    p_lo = args.na_min * args.fs_min
+    p_floor = p_lo if p_lo > 0 else p_hi * 1e-3
     p_grid = np.unique(np.concatenate([
-        [0.0],  # alpha-off reference
-        np.geomspace(p_lo, p_hi, args.p_points),
+        [0.0],  # F_scale=0 -> no alpha-p coupling at all (absolute floor)
+        np.geomspace(p_floor, p_hi, args.p_points),
     ]))
 
     NA, FS = np.meshgrid(na_axis, fs_axis)   # shape (fs, na)
@@ -194,9 +197,22 @@ def build_maps(args):
         else:
             p_star = np.inf       # never ignites in box
 
+        # Putvinski-only reference: Coulomb alpha coupling with NO R-matrix
+        # nuclear enhancement (include_belloni=False), at the nominal alpha
+        # density. This is the most defensible "remove Belloni" benchmark and
+        # is NOT a point on the multiplicative F_scale axis (different v-shape).
+        cs.CROSS_SECTION = sigma
+        enh_pu = np.array([
+            mv.fp_coupled_calculation(
+                T, pb.find_self_consistent_Te(n_p, n_B, T), n_p, n_B,
+                include_alpha=True, n_alpha_over_ne=NOMINAL[0],
+                include_belloni=False)['kinetic_enhancement']
+            for T in T_grid])
+        putv_peak = float(np.max(th * enh_pu))
+
         results[sigma] = dict(
             th=th, enh_grid=enh_grid, peak=peak, peakT=peakT,
-            peak1d=peak1d, p_star=p_star,
+            peak1d=peak1d, p_star=p_star, putv_peak=putv_peak,
         )
 
     return dict(n_p=n_p, n_B=n_B, T_grid=T_grid, na_axis=na_axis,
@@ -277,6 +293,18 @@ def make_figure(M, args, out_png):
                label=f'nominal p={NOMINAL[0]*NOMINAL[1]:.3f}')
     ax.axvline(CONSERVATIVE[0] * CONSERVATIVE[1], color='cyan', ls='--', lw=1.2,
                label=f'conservative p={CONSERVATIVE[0]*CONSERVATIVE[1]:.3f}')
+    # Putvinski-only reference (Coulomb alpha, no R-matrix) at nominal n_alpha
+    for sigma in sigmas:
+        ax.axhline(res[sigma]['putv_peak'], color=colors.get(sigma, 'k'),
+                   ls='-.', lw=1.2, alpha=0.7)
+    pu_txt = ("Putvinski-only (Coulomb $\\alpha$, no R-matrix) @ "
+              "$n_\\alpha/n_e$=0.05:\n"
+              + " ;  ".join(f"{s} = {res[s]['putv_peak']:.2f}"
+                            + ("" if res[s]['putv_peak'] >= 1 else " (sub-ign.)")
+                            for s in sigmas))
+    ax.text(0.03, 0.97, pu_txt, transform=ax.transAxes, fontsize=7.5,
+            va='top', ha='left',
+            bbox=dict(boxstyle='round', fc='wheat', alpha=0.85))
     ax.set_xlabel(r'$p = (n_\alpha/n_e)\times F_{\rm scale}$', fontsize=12)
     ax.set_ylabel('peak $P_F/P_B$', fontsize=12)
     ax.set_title('(d) degeneracy: peak $P_F/P_B$ is a function of $p$ alone',
@@ -312,7 +340,8 @@ def write_csvs(M, args, grid_csv, summary_csv):
         w = csv.writer(f)
         w.writerow(['cross_section', 'p_star_ignition_threshold',
                     'frac_box_sub_ignition', 'peak_at_nominal(0.05,1.0)',
-                    'peak_at_conservative(0.01,0.5)', 'thermal_only_peak'])
+                    'peak_at_conservative(0.01,0.5)', 'thermal_only_peak',
+                    'putvinski_only_peak(no_Rmatrix,n_a=0.05)'])
         for sigma in args.cross_sections:
             peak = res[sigma]['peak']
             frac_sub = float(np.mean(peak <= 1.0))
@@ -322,7 +351,8 @@ def write_csvs(M, args, grid_csv, summary_csv):
                                      M['p_grid'], res[sigma]['peak1d']))
             th_only = float(np.max(res[sigma]['th']))
             w.writerow([sigma, f"{res[sigma]['p_star']:.5f}", f'{frac_sub:.4f}',
-                        f'{pk_nom:.4f}', f'{pk_con:.4f}', f'{th_only:.4f}'])
+                        f'{pk_nom:.4f}', f'{pk_con:.4f}', f'{th_only:.4f}',
+                        f"{res[sigma]['putv_peak']:.4f}"])
 
 
 def print_summary(M, args):
@@ -330,8 +360,8 @@ def print_summary(M, args):
     print("\n" + "=" * 74)
     print("SUMMARY — kinetic-peak P_F/P_B sensitivity")
     print("=" * 74)
-    hdr = f"{'sigma':<6}{'p* (ign.thr)':>14}{'% box sub-ign':>16}" \
-          f"{'nominal':>12}{'conserv.':>12}{'thermal':>10}"
+    hdr = f"{'sigma':<6}{'p*':>9}{'%sub-ign':>10}{'nominal':>10}" \
+          f"{'conserv':>10}{'thermal':>9}{'Putv-only':>11}"
     print(hdr)
     print("-" * 74)
     for sigma in args.cross_sections:
@@ -345,10 +375,11 @@ def print_summary(M, args):
         ps = res[sigma]['p_star']
         ps_s = 'all-ign' if ps == 0 else ('never' if not np.isfinite(ps)
                                           else f'{ps:.3f}')
-        print(f"{sigma:<6}{ps_s:>14}{frac:>15.1f}%{pk_nom:>12.3f}"
-              f"{pk_con:>12.3f}{th:>10.3f}")
+        print(f"{sigma:<6}{ps_s:>9}{frac:>9.1f}%{pk_nom:>10.3f}"
+              f"{pk_con:>10.3f}{th:>9.3f}{res[sigma]['putv_peak']:>11.3f}")
     print("-" * 74)
-    print("nominal = (n_alpha/n_e=0.05, F=1.0) ; conservative = (0.01, 0.5)")
+    print("nominal=(n_a/n_e=0.05, F=1.0); conserv=(0.01,0.5); "
+          "Putv-only=Coulomb a, no R-matrix @ n_a=0.05")
 
 
 def main():
