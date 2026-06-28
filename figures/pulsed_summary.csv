@@ -1,0 +1,5 @@
+cross_section,eta_ch,G>1_in_achievable_tauE(<=1s),maxG_achievable,maxG_all_tauE,min_tauE_for_G1_s
+wang,0.0,False,0.0181,0.3357,none
+TB,0.0,False,0.0216,0.3966,none
+wang,0.3,False,0.0181,0.3393,none
+TB,0.3,False,0.0216,0.4012,none
