@@ -1,0 +1,13 @@
+cross_section,scenario,relax_variant,Te_mode,positive_island_in_defensible(eta<=0.5),eta_ch_at_max,n_alpha_at_max,max_Pnet_Pbrems
+wang,optimistic,i,Te=self-consistent,True,0.5,0.005,0.0163
+wang,optimistic,ii,Te=self-consistent,False,,,-0.4132
+wang,nominal,i,Te=self-consistent,False,,,-0.0231
+wang,nominal,ii,Te=self-consistent,False,,,-0.6617
+wang,pessimistic,i,Te=self-consistent,False,,,-0.0231
+wang,pessimistic,ii,Te=self-consistent,False,,,-0.6617
+TB,optimistic,i,Te=self-consistent,True,0.5,0.005,0.4019
+TB,optimistic,ii,Te=self-consistent,False,,,-0.0277
+TB,nominal,i,Te=self-consistent,True,0.0,0.005,0.1778
+TB,nominal,ii,Te=self-consistent,False,,,-0.5159
+TB,pessimistic,i,Te=self-consistent,True,0.0,0.005,0.1778
+TB,pessimistic,ii,Te=self-consistent,False,,,-0.5159
