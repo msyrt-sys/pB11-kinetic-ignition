@@ -296,6 +296,60 @@ def sigma_wang(E_cm_keV):
 
 
 # ============================================================
+# NEVINS-SWAIN (2000) — LEGACY REFERENCE  [Nucl. Fusion 40, 865]
+# ============================================================
+#
+# Parameters: the "Nevins and Swain" column of Tentori-Belloni 2023 Table 1
+# (verbatim), evaluated through the SAME bare-amplitude Lorentzian S-factor
+# form and the SAME reactivity integrator as TB and Wang, so all three are
+# compared on an identical footing.
+#
+# Integrating this NS S-factor gives <sigma v>(300 keV) = 3.52e-16 cm^3/s,
+# ~4% (300 keV) to ~10% (500 keV) ABOVE the widely-cited NS-2000 *analytic
+# reactivity fit*, whose stated validity ends near 500 keV (it plateaus at
+# high T). We use the S-factor integral for consistency across the three
+# parameterizations; the offset is a property of the integration, not an error.
+
+NS_C0, NS_C1, NS_C2 = 197.0, 0.240, 2.31e-4             # S1 polynomial
+NS_AL, NS_EL, NS_dEL = 1.82e4, 148.0, 2.35             # S1 148 keV resonance
+NS_D0, NS_D1, NS_D2, NS_D5 = 330.0, 66.1, -20.3, -1.58  # S2 polynomial
+NS_B = 4.38                                            # S3 background
+NS_A  = np.array([2.57e6, 5.67e5, 1.34e5, 5.68e5])     # MeV·b
+NS_E  = np.array([581.3, 1083.0, 2405.0, 3344.0])      # keV
+NS_dE = np.array([85.7, 234.0, 138.0, 309.0])          # keV
+NS_E1, NS_E2, NS_E3 = 400.0, 642.0, 3500.0             # boundaries (keV)
+
+
+def S_NS(E_keV):
+    """Nevins-Swain (2000) piecewise S-factor (MeV·b), 4 Breit-Wigner resonances."""
+    E = np.atleast_1d(E_keV).astype(float)
+    S = np.zeros_like(E)
+    m1 = (E > 0) & (E <= NS_E1)
+    m2 = (E > NS_E1) & (E <= NS_E2)
+    m3 = (E > NS_E2) & (E <= NS_E3)
+    S[m1] = (NS_C0 + NS_C1 * E[m1] + NS_C2 * E[m1]**2
+             + NS_AL / ((E[m1] - NS_EL)**2 + NS_dEL**2))
+    x = (E[m2] - NS_E1) / 100.0
+    S[m2] = NS_D0 + NS_D1 * x + NS_D2 * x**2 + NS_D5 * x**5
+    s = np.full_like(E[m3], NS_B)
+    for k in range(4):
+        s += NS_A[k] / ((E[m3] - NS_E[k])**2 + NS_dE[k]**2)
+    S[m3] = s
+    return S
+
+
+def sigma_NS(E_cm_keV):
+    """Nevins-Swain 2000 p-11B fusion cross section (barns). E_cm in keV (CM)."""
+    E = np.atleast_1d(E_cm_keV).astype(float)
+    sigma = np.zeros_like(E)
+    mask = (E > 0.5) & (E <= NS_E3)
+    if np.any(mask):
+        sigma[mask] = (S_NS(E[mask]) / (E[mask] / 1000.0)) * \
+                      np.exp(-np.sqrt(E_G_keV / E[mask]))
+    return sigma
+
+
+# ============================================================
 # PRODUCTION CROSS-SECTION SELECTOR
 # ============================================================
 # "wang" (default): modern Wang 2026, gate-validated ⟨σv⟩(300)=3.63e-16.
@@ -309,7 +363,11 @@ CROSS_SECTION = "wang"
 
 def sigma_fusion(E_cm_keV):
     """Production p-11B fusion cross section, selected by CROSS_SECTION."""
-    return sigma_wang(E_cm_keV) if CROSS_SECTION == "wang" else sigma_TB(E_cm_keV)
+    if CROSS_SECTION == "wang":
+        return sigma_wang(E_cm_keV)
+    if CROSS_SECTION == "NS":
+        return sigma_NS(E_cm_keV)
+    return sigma_TB(E_cm_keV)
 
 
 # ============================================================
