@@ -1,0 +1,5 @@
+cross_section,chi_model,Pnet>0_realistic_B,max_Pnet_over_Pbrems,min_Ptransport_over_Pfus,max_Pnet_chi->0_fake
+wang,bohm,False,-4181.7419,9841.0,-0.3475
+wang,gyro,False,-9.6157,21.3,-0.3475
+TB,bohm,False,-4181.6745,8493.8,-0.2202
+TB,gyro,False,-9.5483,18.4,-0.2202
