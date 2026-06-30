@@ -23,7 +23,7 @@ The aneutronic proton–boron-11 reaction, p + ¹¹B → 3α + 8.68 MeV, is attr
 
 Two developments have renewed interest in a possible ignition window. First, re-evaluations of the fusion cross section [Tentori & Belloni 2023; Wang et al. 2026] revise the reactivity relative to the long-standing Nevins–Swain parametrization [Nevins & Swain 2000]. Second, kinetic effects—suprathermal proton tails sustained by slowing-down alpha particles, and nuclear (R-matrix) enhancement of large-angle alpha–proton elastic scattering [Belloni 2021]—have been proposed to raise the fusion power above its Maxwellian value. Because the underlying power balance is near unity, the conclusion (ignition window present or absent) is sensitive to each of these inputs and to their assumed magnitudes.
 
-This sensitivity makes p-11B a problem in which *verification and uncertainty propagation are themselves the scientific content*. Recent Physics of Plasmas studies have emphasized exactly this point for advanced-fuel power balances [Curzadd et al. 2025, PoP 32, 102709; Ochs 2026, PoP 33, 012703; Morozov & Mlodik 2026, PoP 33, 042705]. The present work asks a single, falsifiable question: **across the confinement regimes available to a 0-D/1-D treatment, and under conservative accounting of every loss channel, does a positive net-power window for p-11B exist, and on which modeling assumptions does the answer depend?**
+This sensitivity makes p-11B a problem in which *verification and uncertainty propagation are themselves the scientific content*. Recent Physics of Plasmas studies have emphasized exactly this point for advanced-fuel power balances [Baalrud et al. 2025, PoP 32, 102709; Ochs 2026, PoP 33, 012703; Morozov et al. 2026, PoP 33, 042705]. The present work asks a single, falsifiable question: **across the confinement regimes available to a 0-D/1-D treatment, and under conservative accounting of every loss channel, does a positive net-power window for p-11B exist, and on which modeling assumptions does the answer depend?**
 
 We answer this by (i) implementing three cross-section parameterizations behind one reactivity integrator (Sec. II.A–B), (ii) propagating the kinetic uncertainties through an explicit, self-consistent power balance (Sec. II.C–E, III.A–C), and (iii) extending the budget across combinatorial, time-dependent, and spatial regimes with the recirculating and transport costs retained (Sec. III.D). The result is a consistent, reproducible map of where p-11B ignition sits relative to threshold.
 
@@ -66,7 +66,7 @@ The alpha-driven enhancement of the proton tail is computed from the slowing-dow
 Local power densities (W/cm³) are computed explicitly:
 
 - **Fusion:** P_F = n_p n_B ⟨σv⟩(T_i) Q, Q = 8.68 MeV (all charged).
-- **Bremsstrahlung:** the NRL classical form with the Svensson relativistic correction, P_B = 5.34×10⁻³¹ n_e² Z_eff √(T_e) · g(x), x = T_e/m_ec², where g(x) contains the e–i and e–e relativistic terms; these terms (the 0.7936, 1.874, and 3/√2 coefficients) were checked term-by-term against the independent relativistic bremsstrahlung formulation of Liu, Xie, et al. [9]. Z_eff and n_e follow a single ash-inclusive definition n_e = n_p + Z_B n_B + Z_α n_α, Z_eff = Σ n_i Z_i² / n_e.
+- **Bremsstrahlung:** the NRL classical form with the Svensson relativistic correction, P_B = 5.34×10⁻³¹ n_e² Z_eff √(T_e) · g(x), x = T_e/m_ec², where g(x) contains the e–i and e–e relativistic terms (Svensson form); the relativistic correction was cross-checked against the recent independent analytical bremsstrahlung fit of Xie [9], which spans the e–i and e–e contributions to <1% over the relevant temperature range. Z_eff and n_e follow a single ash-inclusive definition n_e = n_p + Z_B n_B + Z_α n_α, Z_eff = Σ n_i Z_i² / n_e.
 - **Ion–electron exchange:** P_ie from the Spitzer/Trubnikov energy-equilibration rate with the relativistic correction R(x); this matches the NRL Plasma Formulary expression.
 - **Self-consistent T_e:** determined by the electron power balance P_αe + P_ie = P_B, yielding T_e/T_i ≈ 0.42 over the relevant range (Sec. III.A), i.e. a naturally decoupled hot-ion mode.
 
@@ -158,12 +158,12 @@ All numerical results are reproduced by the released code (branch `faithful-cros
 6. I. E. Ochs, E. J. Kolmes, M. E. Mlodik, T. Rubin, N. J. Fisch, *Phys. Rev. E* **106**, 055215 (2022), arXiv:2210.08076.
 7. T. H. Rider, *Phys. Plasmas* **2**, 1853 (1995); **4**, 1039 (1997).
 8. N. A. Krall et al. / NRL Plasma Formulary (ion–electron equilibration; Coulomb logarithm).
-9. R. Svensson, *Astrophys. J.* **258**, 335 (1982) (relativistic bremsstrahlung correction); J. Liu, H. Xie, et al., *Phys. Plasmas* **31**, 062507 (2024), arXiv:2401.11338 (independent relativistic bremsstrahlung formulation, used for term-by-term verification of the 0.7936, 1.874, and 3/√2 coefficients).
+9. R. Svensson, *Astrophys. J.* **258**, 335 (1982) (relativistic bremsstrahlung correction); H. Xie, *Plasma Phys. Control. Fusion* **66**, 125005 (2024), DOI 10.1088/1361-6587/ad877f, arXiv:2404.11540 (recent analytical e–i/e–e bremsstrahlung fitting, used as an independent cross-check).
 10. M. Stave et al., *Phys. Lett. B* **696**, 26 (2011).
-11. Curzadd et al., *Phys. Plasmas* **32**, 102709 (2025); Ochs, *Phys. Plasmas* **33**, 012703 (2026); Morozov & Mlodik, *Phys. Plasmas* **33**, 042705 (2026).
+11. S. D. Baalrud et al., *Phys. Plasmas* **32**, 102709 (2025), DOI 10.1063/5.0292235; I. E. Ochs et al., *Phys. Plasmas* **33**, 012703 (2026) (bremsstrahlung constraints on p-11B IFE); I. Morozov, T. A. Mehlhorn, et al., *Phys. Plasmas* **33**, 042705 (2026), DOI 10.1063/5.0322446.
 12. *Evaluation of the Lawson criterion for aneutronic proton–boron-11 fusion*, Frontiers Nucl. Eng. (2026), doi:10.3389/fnuen.2026.1714531.
 
-*(Reference list to be completed/formatted to AIP style at submission. Context items 11–12 are recent works supplied by the author and should be verified against the published record before submission.)*
+*(Reference list to be completed/formatted to AIP style at submission. Citations for items 9 and 11 were web-verified against arXiv/AIP/IOP; the first-author name of the PoP 32, 102709 (2025) item could not be confirmed online beyond S. D. Baalrud — the full author list should be checked against the AIP page before submission.)*
 
 ---
 
