@@ -66,7 +66,7 @@ The alpha-driven enhancement of the proton tail is computed from the slowing-dow
 Local power densities (W/cm³) are computed explicitly:
 
 - **Fusion:** P_F = n_p n_B ⟨σv⟩(T_i) Q, Q = 8.68 MeV (all charged).
-- **Bremsstrahlung:** the NRL classical form with the Svensson relativistic correction, P_B = 5.34×10⁻³¹ n_e² Z_eff √(T_e) · g(x), x = T_e/m_ec², where g(x) contains the e–i and e–e relativistic terms (Svensson form); the relativistic correction was cross-checked against the recent independent analytical bremsstrahlung fit of Xie [9], which spans the e–i and e–e contributions to <1% over the relevant temperature range. Z_eff and n_e follow a single ash-inclusive definition n_e = n_p + Z_B n_B + Z_α n_α, Z_eff = Σ n_i Z_i² / n_e.
+- **Bremsstrahlung:** the NRL classical form with the Svensson relativistic correction, P_B = 5.34×10⁻³¹ · n_e² · Z_eff · √(T_e) · g(x), x = T_e/m_ec². The coefficient is the standard NRL classical value evaluated in **mixed practical units** (n_e in cm⁻³, T_e in keV, P_B in W/cm³); it is equivalent to 1.69×10⁻³² with T_e in eV, and to 5.34×10⁻³⁷ in SI units (n_e in m⁻³, P_B in W/m³). The correction g(x) contains the e–i and e–e relativistic terms (Svensson form) and was cross-checked against the recent independent analytical bremsstrahlung fit of Xie [9], which spans the e–i and e–e contributions to <1% over the relevant temperature range. Z_eff and n_e follow a single ash-inclusive definition n_e = n_p + Z_B n_B + Z_α n_α, Z_eff = Σ n_i Z_i² / n_e.
 - **Ion–electron exchange:** P_ie from the Spitzer/Trubnikov energy-equilibration rate with the relativistic correction R(x); this matches the NRL Plasma Formulary expression.
 - **Self-consistent T_e:** determined by the electron power balance P_αe + P_ie = P_B, yielding T_e/T_i ≈ 0.42 over the relevant range (Sec. III.A), i.e. a naturally decoupled hot-ion mode.
 
@@ -157,7 +157,7 @@ All numerical results are reproduced by the released code (branch `faithful-cros
 5. F. Belloni, *Plasma Phys. Control. Fusion* **63**, 055020 (2021).
 6. I. E. Ochs, E. J. Kolmes, M. E. Mlodik, T. Rubin, N. J. Fisch, *Phys. Rev. E* **106**, 055215 (2022), arXiv:2210.08076.
 7. T. H. Rider, *Phys. Plasmas* **2**, 1853 (1995); **4**, 1039 (1997).
-8. N. A. Krall et al. / NRL Plasma Formulary (ion–electron equilibration; Coulomb logarithm).
+8. J. D. Huba, *NRL Plasma Formulary*, Naval Research Laboratory (Washington, DC) (ion–electron energy equilibration rate; Coulomb logarithm; classical bremsstrahlung coefficient).
 9. R. Svensson, *Astrophys. J.* **258**, 335 (1982) (relativistic bremsstrahlung correction); H. Xie, *Plasma Phys. Control. Fusion* **66**, 125005 (2024), DOI 10.1088/1361-6587/ad877f, arXiv:2404.11540 (recent analytical e–i/e–e bremsstrahlung fitting, used as an independent cross-check).
 10. M. Stave et al., *Phys. Lett. B* **696**, 26 (2011).
 11. S. D. Baalrud et al., *Phys. Plasmas* **32**, 102709 (2025), DOI 10.1063/5.0292235; I. E. Ochs et al., *Phys. Plasmas* **33**, 012703 (2026) (bremsstrahlung constraints on p-11B IFE); I. Morozov, T. A. Mehlhorn, et al., *Phys. Plasmas* **33**, 042705 (2026), DOI 10.1063/5.0322446.
