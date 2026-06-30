@@ -160,10 +160,10 @@ All numerical results are reproduced by the released code (branch `faithful-cros
 8. J. D. Huba, *NRL Plasma Formulary*, Naval Research Laboratory (Washington, DC) (ion–electron energy equilibration rate; Coulomb logarithm; classical bremsstrahlung coefficient).
 9. R. Svensson, *Astrophys. J.* **258**, 335 (1982) (relativistic bremsstrahlung correction); H. Xie, *Plasma Phys. Control. Fusion* **66**, 125005 (2024), DOI 10.1088/1361-6587/ad877f, arXiv:2404.11540 (recent analytical e–i/e–e bremsstrahlung fitting, used as an independent cross-check).
 10. M. Stave et al., *Phys. Lett. B* **696**, 26 (2011).
-11. S. D. Baalrud et al., *Phys. Plasmas* **32**, 102709 (2025), DOI 10.1063/5.0292235; I. E. Ochs et al., *Phys. Plasmas* **33**, 012703 (2026) (bremsstrahlung constraints on p-11B IFE); I. Morozov, T. A. Mehlhorn, et al., *Phys. Plasmas* **33**, 042705 (2026), DOI 10.1063/5.0322446.
+11. S. D. Baalrud, *Phys. Plasmas* **32**, 102709 (2025), DOI 10.1063/5.0292235; I. E. Ochs et al., *Phys. Plasmas* **33**, 012703 (2026) (bremsstrahlung constraints on p-11B IFE); I. Morozov, T. A. Mehlhorn, et al., *Phys. Plasmas* **33**, 042705 (2026), DOI 10.1063/5.0322446.
 12. *Evaluation of the Lawson criterion for aneutronic proton–boron-11 fusion*, Frontiers Nucl. Eng. (2026), doi:10.3389/fnuen.2026.1714531.
 
-*(Reference list to be completed/formatted to AIP style at submission. Citations for items 9 and 11 were web-verified against arXiv/AIP/IOP; the first-author name of the PoP 32, 102709 (2025) item could not be confirmed online beyond S. D. Baalrud — the full author list should be checked against the AIP page before submission.)*
+*(Reference list to be completed/formatted to AIP style at submission. Citations for items 9 and 11 were web-verified against arXiv/AIP/IOP; for the PoP 32, 102709 (2025) item the first author is confirmed as S. D. Baalrud via the AIP listing, to be re-verified against the full author list at submission.)*
 
 ---
 
