@@ -1,11 +1,9 @@
-# Cross-section sensitivity and the absence of a net-power window in proton–boron-11 fusion: a multi-regime kinetic study
+# Cross-section sensitivity and the fragility of net-power windows in proton–boron-11 fusion: a multi-regime kinetic study
 
 **Mehmet Enes Süzek**
 
 Department of Internal Medicine, Faculty of Medicine, Afyonkarahisar Health Sciences University, 03200 Afyonkarahisar, Türkiye
 ORCID: 0009-0006-7825-6809 · zzenfal97@gmail.com
-
-*Draft for submission to Physics of Plasmas (journal-neutral abstract; also suitable for Computer Physics Communications / Plasma Physics and Controlled Fusion).*
 
 ---
 
@@ -19,11 +17,11 @@ Aneutronic proton–boron-11 (p-11B) fusion has been argued, on the basis of upd
 
 ## I. Introduction
 
-The aneutronic proton–boron-11 reaction, p + ¹¹B → 3α + 8.68 MeV, is attractive for fusion energy because it releases its energy almost entirely in charged particles and produces no primary neutrons. Its drawback is equally well known: the reactivity peaks near 600 keV and the bremsstrahlung radiated by the high-Z, high-temperature electrons is comparable to the fusion power, so that thermal p-11B operates at best near the boundary of net energy production. Quantitative zero-dimensional power balances [Putvinski 2019] have placed the peak fusion-to-bremsstrahlung ratio only a few percent above unity, with onerous confinement requirements.
+The aneutronic proton–boron-11 reaction, p + ¹¹B → 3α + 8.68 MeV, is attractive for fusion energy because it releases its energy almost entirely in charged particles and produces no primary neutrons. Its drawback is equally well known: the reactivity peaks near 600 keV and the bremsstrahlung radiated by the high-Z, high-temperature electrons is comparable to the fusion power, so that thermal p-11B operates at best near the boundary of net energy production. Quantitative zero-dimensional power balances [1] have placed the peak fusion-to-bremsstrahlung ratio only a few percent above unity, with onerous confinement requirements.
 
-Two developments have renewed interest in a possible ignition window. First, re-evaluations of the fusion cross section [Tentori & Belloni 2023; Wang et al. 2026] revise the reactivity relative to the long-standing Nevins–Swain parametrization [Nevins & Swain 2000]. Second, kinetic effects—suprathermal proton tails sustained by slowing-down alpha particles, and nuclear (R-matrix) enhancement of large-angle alpha–proton elastic scattering [Belloni 2021]—have been proposed to raise the fusion power above its Maxwellian value. Because the underlying power balance is near unity, the conclusion (ignition window present or absent) is sensitive to each of these inputs and to their assumed magnitudes.
+Two developments have renewed interest in a possible ignition window. First, re-evaluations of the fusion cross section [2, 3] revise the reactivity relative to the long-standing Nevins–Swain parametrization [4]. Second, kinetic effects—suprathermal proton tails sustained by slowing-down alpha particles, and nuclear (R-matrix) enhancement of large-angle alpha–proton elastic scattering [5]—have been proposed to raise the fusion power above its Maxwellian value. Because the underlying power balance is near unity, the conclusion (ignition window present or absent) is sensitive to each of these inputs and to their assumed magnitudes.
 
-This sensitivity makes p-11B a problem in which *verification and uncertainty propagation are themselves the scientific content*. Recent Physics of Plasmas studies have emphasized exactly this point for advanced-fuel power balances [Baalrud et al. 2025, PoP 32, 102709; Ochs 2026, PoP 33, 012703; Morozov et al. 2026, PoP 33, 042705]. The present work asks a single, falsifiable question: **across the confinement regimes available to a 0-D/1-D treatment, and under conservative accounting of every loss channel, does a positive net-power window for p-11B exist, and on which modeling assumptions does the answer depend?**
+This sensitivity makes p-11B a problem in which *verification and uncertainty propagation are themselves the scientific content*. Recent Physics of Plasmas studies have emphasized exactly this point for advanced-fuel power balances [11]. The present work asks a single, falsifiable question: **across the confinement regimes available to a 0-D/1-D treatment, and under conservative accounting of every loss channel, does a positive net-power window for p-11B exist, and on which modeling assumptions does the answer depend?**
 
 We answer this by (i) implementing three cross-section parameterizations behind one reactivity integrator (Sec. II.A–B), (ii) propagating the kinetic uncertainties through an explicit, self-consistent power balance (Sec. II.C–E, III.A–C), and (iii) extending the budget across combinatorial, time-dependent, and spatial regimes with the recirculating and transport costs retained (Sec. III.D). The result is a consistent, reproducible map of where p-11B ignition sits relative to threshold.
 
@@ -39,36 +37,37 @@ We evaluate the Maxwellian reactivity
 
 with E the center-of-mass (relative) energy and μ the p-11B reduced mass (μc² = 859.5 MeV), for three astrophysical-S-factor parameterizations evaluated through the **same** integrator and the same Gamow form σ(E) = [S(E)/E] exp(−√(E_G/E)), E_G = 22.589 MeV:
 
-- **Tentori–Belloni 2023 (TB)** — Table 1 "this work" column, three energy segments with bare-amplitude Breit–Wigner resonances;
-- **Wang et al. 2026 (Wang)** — Table 1, five resonances, the 148 keV narrow resonance retained;
-- **Nevins–Swain 2000 (NS)** — the "Nevins and Swain" reference column of TB Table 1, evaluated identically.
+- **Tentori–Belloni 2023 (TB)** [2] — Table 1 "this work" column, three energy segments with bare-amplitude Breit–Wigner resonances;
+- **Wang et al. 2026 (Wang)** [3] — Table 1, five resonances, the 148 keV narrow resonance retained;
+- **Nevins–Swain 2000 (NS)** [4] — the "Nevins and Swain" reference column of TB Table 1, evaluated identically.
 
 All energies are kept in the center-of-mass frame throughout the reactivity integral; the laboratory↔CM conversion (E_lab = E_cm·12/11 for a proton on a boron nucleus) enters only in the kinetic (lab-frame distribution) calculation of Sec. II.D. Integration limits and the resonance line-shape convention are stated in the released source.
 
-> **Footnote (NS reactivity).** Our NS reactivity values are obtained by direct S-factor integration through the common integrator. The widely-cited NS-2000 *analytic* reactivity fit (Bosch–Hale/Peres form) is stated valid only to ~500 keV and plateaus beyond [Nevins & Swain 2000]; evaluating it gives ⟨σv⟩ = 3.385×10⁻¹⁶ cm³/s at 300 keV, so that our NS S-factor integral lies **+3.9% (300 keV), +9.2% (500 keV), and +11.4% (600 keV)** above the analytic fit, the offset growing as the fit reaches its stated validity edge. Computing all three parameterizations through one faithful integrator—rather than mixing an analytic fit with numerical integrals—is a deliberate choice for internal consistency, not an error; the cross-section coefficients were verified three independent ways against the published TB Table 1, and the analytic-fit offset is reproduced by the released code.
+> **Footnote (NS reactivity).** Our NS reactivity values are obtained by direct S-factor integration through the common integrator. The widely-cited NS-2000 *analytic* reactivity fit (Bosch–Hale/Peres form) is stated valid only to ~500 keV and plateaus beyond [4]; evaluating it gives ⟨σv⟩ = 3.385×10⁻¹⁶ cm³/s at 300 keV, so that our NS S-factor integral lies **+3.9% (300 keV), +9.2% (500 keV), and +11.4% (600 keV)** above the analytic fit, the offset growing as the fit reaches its stated validity edge. Computing all three parameterizations through one faithful integrator—rather than mixing an analytic fit with numerical integrals—is a deliberate choice for internal consistency, not an error; the cross-section coefficients were verified three independent ways against the published TB Table 1, and the analytic-fit offset is reproduced by the released code.
 
 ### II.B Reactivity benchmark
 
-Table 1 reports ⟨σv⟩(T) for the three parameterizations from 100 to 600 keV. At 300 keV, **TB = 4.37×10⁻¹⁶, Wang = 3.63×10⁻¹⁶, NS = 3.52×10⁻¹⁶ cm³/s**. The TB/Wang ratio is nearly flat at ~1.20; the TB/NS ratio rises from 1.24 (300 keV) to 1.45 (600 keV). The TB curve agrees with the original Tentori–Belloni tabulation to within 0.4%, and the low-temperature NS values are consistent with independent recent evaluations [Frontiers Nucl. Eng. 2026]. Figure 1 shows σ(E) and ⟨σv⟩(T) for all three. The ~20% spread in the reactivity is the single largest modeling uncertainty entering the power balance and is propagated explicitly below.
+Table 1 reports ⟨σv⟩(T) for the three parameterizations from 100 to 600 keV. At 300 keV, **TB = 4.37×10⁻¹⁶, Wang = 3.63×10⁻¹⁶, NS = 3.52×10⁻¹⁶ cm³/s**. The TB/Wang ratio is nearly flat at ~1.20; the TB/NS ratio rises from 1.24 (300 keV) to 1.45 (600 keV). The TB curve agrees with the original Tentori–Belloni tabulation to within 0.4%, and the low-temperature NS values are consistent with independent recent evaluations [12], and the parameterized cross sections reproduce the measured ¹¹B(p,α) S-factor [10]. Figure 1 shows σ(E) and ⟨σv⟩(T) for all three. The ~20% spread in the reactivity is the single largest modeling uncertainty entering the power balance and is propagated explicitly below.
 
 ### II.C Maxwell-preserving Fokker–Planck operator
 
 The proton distribution is evolved with an isotropic, one-dimensional (speed) Fokker–Planck operator using the Trubnikov diffusion and friction coefficients for proton–proton, proton–boron, and proton–electron collisions, plus a non-Maxwellian alpha contribution (Sec. II.D). The diffusion/friction functionals are evaluated **directly at the cell half-points** rather than by linear averaging; this preserves the Maxwell–Boltzmann steady state to a relative residual ~10⁻¹¹ (versus ~10⁻² for the linear-average scheme), verified by the detailed-balance test L[f_M] ≈ 0.
 
-We stress the scope of this figure of merit: exact preservation of a Maxwellian is a *necessary* property of a kinetic solver but does not by itself validate the non-Maxwellian tail that carries the kinetic enhancement. The tail accuracy is assessed separately through the enhancement decomposition of Sec. III.B.
+We stress the scope of this figure of merit: exact preservation of a Maxwellian is a *necessary* property of a kinetic solver but does not by itself validate the non-Maxwellian tail that carries the kinetic enhancement. The tail accuracy is assessed separately through the enhancement decomposition of Sec. III.B. The full velocity-space discretization—grid, half-point coefficient evaluation, and boundary conditions—is documented with the released source (Sec. Data availability).
 
 ### II.D R-matrix kinetic enhancement as a sensitivity input
 
-The alpha-driven enhancement of the proton tail is computed from the slowing-down alpha distribution coupling to protons via Trubnikov (Coulomb) diffusion and, optionally, the Belloni 2021 nuclear enhancement of large-angle α–p elastic scattering. The latter is obtained from a three-level (S-, P-, D-wave) ⁵Li R-matrix phase-shift evaluation, returning the energy-dependent factor F(v_p) = ⟨dσ/dE_p⟩_total / ⟨dσ/dE_p⟩_Rutherford. Because the R-matrix scattering cross section agrees with reference evaluations only to within a factor of order two, **F enters the analysis as a scanned sensitivity parameter, not a fixed number** (Sec. III.B–C).
+The alpha-driven enhancement of the proton tail is computed from the slowing-down alpha distribution coupling to protons via Trubnikov (Coulomb) diffusion and, optionally, the Belloni 2021 nuclear enhancement [5] of large-angle α–p elastic scattering. The latter is obtained from a three-level (S-, P-, D-wave) ⁵Li R-matrix phase-shift evaluation, returning the energy-dependent factor F(v_p) = ⟨dσ/dE_p⟩_total / ⟨dσ/dE_p⟩_Rutherford. Because the R-matrix scattering cross section agrees with reference evaluations only to within a factor of order two, **F enters the analysis as a scanned sensitivity parameter, not a fixed number**: the nominal R-matrix factor (the unscaled Belloni evaluation) is multiplied by a dimensionless scale F_scale ∈ [0.5, 2] spanning the factor-two scattering uncertainty against SigmaCalc 2.0, with the nominal operating point at (n_α/n_e, F_scale) = (0.05, 1.0) and the conservative point at (0.01, 0.5) (Sec. III.B–C).
 
 ### II.E Power balance
 
 Local power densities (W/cm³) are computed explicitly:
 
 - **Fusion:** P_F = n_p n_B ⟨σv⟩(T_i) Q, Q = 8.68 MeV (all charged).
-- **Bremsstrahlung:** the NRL classical form with the Svensson relativistic correction, P_B = 5.34×10⁻³¹ · n_e² · Z_eff · √(T_e) · g(x), x = T_e/m_ec². The coefficient is the standard NRL classical value evaluated in **mixed practical units** (n_e in cm⁻³, T_e in keV, P_B in W/cm³); it is equivalent to 1.69×10⁻³² with T_e in eV, and to 5.34×10⁻³⁷ in SI units (n_e in m⁻³, P_B in W/m³). The correction g(x) contains the e–i and e–e relativistic terms (Svensson form) and was cross-checked against the recent independent analytical bremsstrahlung fit of Xie [9], which spans the e–i and e–e contributions to <1% over the relevant temperature range. (We adopt the NRL classical coefficient; the Wang 2026 power balance uses a value ~3% lower, a Gaunt/Born convention difference — at the near-threshold thermal margin a further small modeling sensitivity, Sec. III.D.) Z_eff and n_e follow a single ash-inclusive definition n_e = n_p + Z_B n_B + Z_α n_α, Z_eff = Σ n_i Z_i² / n_e.
+- **Bremsstrahlung:** the NRL classical form with the Svensson relativistic correction, P_B = 5.34×10⁻³¹ · n_e² · Z_eff · √(T_e) · g(x), x = T_e/m_ec². The coefficient is the standard NRL classical value [8] evaluated in **mixed practical units** (n_e in cm⁻³, T_e in keV, P_B in W/cm³); it is equivalent to 1.69×10⁻³² with T_e in eV, and to 5.34×10⁻³⁷ in SI units (n_e in m⁻³, P_B in W/m³). The correction g(x) contains the e–i and e–e relativistic terms (Svensson form) and was cross-checked against the recent independent analytical bremsstrahlung fit of Xie [9], which spans the e–i and e–e contributions to <1% over the relevant temperature range. (We adopt the NRL classical coefficient; the Wang 2026 power balance uses a value ~3% lower, a Gaunt/Born convention difference — at the near-threshold thermal margin a further small modeling sensitivity, Sec. III.D.) Z_eff and n_e follow a single ash-inclusive definition n_e = n_p + Z_B n_B + Z_α n_α, Z_eff = Σ n_i Z_i² / n_e.
 - **Ion–electron exchange:** P_ie from the Spitzer/Trubnikov energy-equilibration rate with the relativistic correction R(x); this matches the NRL Plasma Formulary expression.
 - **Self-consistent T_e:** determined by the electron power balance P_αe + P_ie = P_B, yielding T_e/T_i ≈ 0.42 over the relevant range (Sec. III.A), i.e. a naturally decoupled hot-ion mode.
+- **Net-power budget (Sec. III.D):** the multi-regime boundary study charges every loss channel, P_net = P_fus − P_brems − P_drive − P_relax. The wave-drive cost of channeling a power P_ch = η_ch P_α (η_ch ≤ 0.5 the channeling efficiency, η_drive the wave-drive efficiency, P_α the alpha power) is P_drive = (1/η_drive − 1) P_ch. The recirculation splits as P_relax = P_{relax,tail} + P_{relax,dec}: continuous re-driving of the wave-sustained suprathermal tail, P_{relax,tail} = f_tail P_ch (the tail thermalizes on the slowing-down time), plus a decoupling cost P_{relax,dec} bracketed by two variants — (i) no-double-count, P_{relax,dec} = max(0, P_αe + P_ie − P_B), the electron-power excess over bremsstrahlung that vanishes at the self-consistent T_e; and (ii) strict Rider, P_{relax,dec} = P_ie, the full ion→electron collisional transfer treated as recirculating load. The combinatorial scan additionally charges a synchrotron loss P_sync = ξ P_B and an impurity contribution to n_e and Z_eff.
 
 > **Footnote (Coulomb logarithm).** The Wang thermal peak is sensitive to the electron–ion Coulomb logarithm: P_F/P_B(peak) = 1.01, 1.05, 1.12, 1.18 for lnΛ = 17, 15, 12, 10. At the standard value lnΛ ≈ 17 the result is at threshold; the spread is a further modeling sensitivity of the near-threshold conclusion.
 
@@ -90,13 +89,7 @@ The optimum boron fraction is f_B ≈ 0.13 for both modern cross sections, and r
 
 ### III.B Kinetic enhancement, decomposed
 
-The kinetic enhancement of the fusion power, enh ≡ P_F[f_kinetic]/P_F[Maxwell], decomposes (Wang, T_i = 180 keV) as:
-
-| stage | enh | interpretation |
-|---|---:|---|
-| thermal FP (no alpha) | 0.83 | burnout depletes the tail |
-| + Putvinski Coulomb alpha | 1.08 | +8% (consistent with the literature ~10%) |
-| + Belloni R-matrix | 1.64 | ×1.5 increment from the nuclear factor |
+The kinetic enhancement of the fusion power, enh ≡ P_F[f_kinetic]/P_F[Maxwell], decomposes as shown in Table 2 (Wang, T_i = 180 keV).
 
 The kinetic-peak ratio is **P_F/P_B = 1.26 (Wang)** and **1.50 (TB)**. Removing the R-matrix factor and retaining only the Coulomb (Putvinski) enhancement gives **P_F/P_B = 0.98 (Wang) — sub-ignition**. The surviving net gain therefore rests entirely on the R-matrix increment, the input carrying the largest (factor-two) uncertainty.
 
@@ -108,21 +101,21 @@ The alpha→proton diffusion scales as the product of the steady-state alpha den
 
 We now retain *every* loss channel and ask whether a positive net-power window opens in any regime. The budget is P_net = P_fus − P_brems − P_drive − P_relax, where P_drive is the wave-drive cost of any channeling and P_relax is the recirculating cost of maintaining the non-equilibrium (the e–i recirculation à la Rider, and the suprathermal-tail maintenance). Two accounting variants bracket the recirculation: a no-double-count variant (electron-power excess over bremsstrahlung) and a strict (Rider) variant (full e–i transfer).
 
-**Combinatorial (equilibrium).** A Sobol scan of **4.19×10⁶** parameter combinations over seven simultaneously-free levers (ion temperature, T_e/T_i, boron fraction, alpha density, channeling efficiency ≤ 0.5, tail fraction, drive efficiency, plus impurity and synchrotron losses) finds, under the strict (Rider) accounting and the modern Wang cross section, **no positive net-power sample** (best case 14% below threshold). Under the lenient accounting only 2 of 4.19×10⁶ samples are positive, and both require *every* optimistic lever simultaneously pinned at its ceiling (channeling efficiency ≈ 0.49, forced electron cooling below the self-consistent value, near-zero synchrotron, aggressive ash removal); neither lies in the demonstrated-physics sub-box. Two independent accounting approaches bracket the conservative margin at **−14% to −76%**, both negative. Figure 3 shows the net-power distribution and the parameter projection of the rare positive samples.
+**Combinatorial (steady-state).** A Sobol scan of **4.19×10⁶** parameter combinations over seven simultaneously-free levers (ion temperature, T_e/T_i, boron fraction, alpha density, channeling efficiency ≤ 0.5, tail fraction, drive efficiency, plus impurity and synchrotron losses) finds, under the strict (Rider) accounting and the modern Wang cross section, **no positive net-power sample** (best case 14% below threshold). Under the lenient accounting only 2 of 4.19×10⁶ samples are positive, and both require *every* optimistic lever simultaneously pinned at its ceiling (channeling efficiency ≈ 0.49, forced electron cooling below the self-consistent value, near-zero synchrotron, aggressive ash removal); neither lies in the demonstrated-physics sub-box. Two independent accounting approaches bracket the conservative margin at **−14% to −76%**, both negative. Figure 3 shows the net-power distribution and the parameter projection of the rare positive samples.
 
 **Time-dependent (transient).** A two-temperature 0-D model evolved with a stiff integrator (instantaneous hot-ion spark, finite confinement time τ_E) tests the transient Te<Ti window. The instantaneous P_fus/P_brems reaches ~2.7 while the electrons are cold, but the **cycle-integrated gain** G = E_fus/(E_spark + E_brems + E_trans) is ~0.02 at the achievable τ_E (~1 s) and **remains below 0.4 even at τ_E = 100 s** (the perfect-confinement limit)—i.e. not even a confinement artifact. Crediting all alpha power to the ions (the most ion-favorable accounting) raises this only to G ≲ 0.36. The hot-ion spark energy exceeds the fusion produced before the plasma cools by a factor of order 50. Figure 4 shows representative trajectories and the G-map.
 
 **Spatial (1-D radial).** A cylindrical steady-state model with prescribed hot-core/cold-edge profiles, charging the conductive transport loss, tests spatial separation of fusion from radiation/ash. At realistic heat diffusivities (Bohm and gyro-Bohm, B ∈ [5,20] T) the boundary heat conduction exceeds the volume-integrated fusion by **20× (gyro-Bohm) to ~10⁴× (Bohm)**; even in the χ→0 (perfect-insulation) limit the decoupled profile is sub-marginal, because concentrating fusion in a small hot core reduces the volume-integrated reactivity more than it saves edge bremsstrahlung. Spatial separation fails on both counts. Figure 5 shows the radial profiles and the net-power maps.
 
-Table 2 consolidates the four regimes. Five distinct modeling sensitivities are reported transparently and propagate into the margins: the NS analytic-vs-integral offset (Sec. II.A), the ~3% bremsstrahlung-coefficient convention (Sec. II.E), the combinatorial accounting bracket (−14% to −76%), the pulsed alpha-deposition accounting (G ≤ 0.36), and the Coulomb logarithm (Sec. II.E).
+Table 3 consolidates the four regimes. Five distinct modeling sensitivities are reported transparently and propagate into the margins: the NS analytic-vs-integral offset (Sec. II.A), the ~3% bremsstrahlung-coefficient convention (Sec. II.E), the combinatorial accounting bracket (−14% to −76%), the pulsed alpha-deposition accounting (G ≤ 0.36), and the Coulomb logarithm (Sec. II.E).
 
 ---
 
 ## IV. Discussion
 
-The picture that emerges is internally consistent and consistent with the literature. The thermal margin with the modern Wang cross section (~1.01) reproduces the few-percent margin and onerous confinement requirement of the original Putvinski analysis [Putvinski 2019]; the present study is a *confirmation within uncertainty*, not a contradiction. The combinatorial, transient, and spatial regimes provide four independent realizations of the recirculating-power limit on non-equilibrium fusion systems [Rider 1995, 1997]: maintaining the non-thermal feature that helps (a suprathermal tail, a two-temperature state, a spatial gradient) costs more than it returns once the maintenance cost is charged.
+The picture that emerges is internally consistent and consistent with the literature. The thermal margin with the modern Wang cross section (~1.01) reproduces the few-percent margin and onerous confinement requirement of the original Putvinski analysis [1]; the present study is a *confirmation within uncertainty*, not a contradiction. The equilibrium, combinatorial, transient, and spatial regimes provide four independent realizations of the recirculating-power limit on non-equilibrium fusion systems [7]: maintaining the non-thermal feature that helps (a suprathermal tail, a two-temperature state, a spatial gradient) costs more than it returns once the maintenance cost is charged.
 
-The two most discussed enhancement mechanisms enter as follows. The alpha-channeling/ash-demixing schemes [Ochs et al. 2022; subsequent spatial-separation proposals] can in principle reduce bremsstrahlung and feed the reactive tail, but in the present budget their drive and recirculation costs offset the gain at demonstrated efficiencies; the positive island, where it exists at all, requires channeling efficiencies and ash-removal rates well above demonstrated values and is therefore an unproven precondition rather than a result. The R-matrix elastic enhancement is the single lever that converts the Wang kinetic peak from sub-ignition to ~1.26; given its factor-two uncertainty, a quantitative ignition claim cannot rest on it without an independent calibration.
+The two most discussed enhancement mechanisms enter as follows. The alpha-channeling/ash-demixing schemes [6], and subsequent spatial-separation proposals, can in principle reduce bremsstrahlung and feed the reactive tail, but in the present budget their drive and recirculation costs offset the gain at demonstrated efficiencies; the positive island, where it exists at all, requires channeling efficiencies and ash-removal rates well above demonstrated values and is therefore an unproven precondition rather than a result. The R-matrix elastic enhancement is the single lever that converts the Wang kinetic peak from sub-ignition to ~1.26; given its factor-two uncertainty, a quantitative ignition claim cannot rest on it without an independent calibration.
 
 We deliberately avoid characterizing earlier optimistic estimates as artifacts; the differences are quantitatively attributable to specific, individually-defensible modeling choices (cross-section parameterization, enhancement magnitude, loss accounting), and the contribution of this work is to make those choices explicit and to propagate their uncertainty. The 0-D/1-D scope is also a limitation: a positive island, were one to survive a full transport calculation, would not be excluded by the present treatment—but the consistent negativity across four independent regimes, each biased toward the optimistic side where assumptions were required, places the burden of proof on any future positive claim.
 
@@ -136,7 +129,7 @@ Across equilibrium (thermal and kinetic), combinatorial (4.19×10⁶-sample), ti
 
 ## Data availability
 
-All numerical results are reproduced by the released code (branch `faithful-cross-section`; commit hash to be pinned at submission) with a fixed environment (numpy 2.x, scipy 1.x, matplotlib 3.x). Each figure and table is generated by a named script with its CSV output:
+All numerical results are reproduced by the released code (branch `faithful-cross-section`) with a fixed environment (numpy 2.x, scipy 1.x, matplotlib 3.x). Each figure and table is generated by a named script with its CSV output:
 
 - Table 1, Figure 1 — `scripts/fig_cross_sections.py` (cross sections + reactivity); a ⟨σv⟩ benchmark gate verifies the integrator to <0.15%.
 - Figure 2 — `scripts/sensitivity_analysis_2d.py` (+ `sensitivity_2d_grid.csv`, `sensitivity_2d_summary.csv`).
@@ -163,8 +156,6 @@ All numerical results are reproduced by the released code (branch `faithful-cros
 11. S. D. Baalrud, *Phys. Plasmas* **32**, 102709 (2025), DOI 10.1063/5.0292235; I. E. Ochs et al., *Phys. Plasmas* **33**, 012703 (2026) (bremsstrahlung constraints on p-11B IFE); I. Morozov, T. A. Mehlhorn, et al., *Phys. Plasmas* **33**, 042705 (2026), DOI 10.1063/5.0322446.
 12. *Evaluation of the Lawson criterion for aneutronic proton–boron-11 fusion*, Frontiers Nucl. Eng. (2026), doi:10.3389/fnuen.2026.1714531.
 
-*(Reference list to be completed/formatted to AIP style at submission. Citations for items 9 and 11 were web-verified against arXiv/AIP/IOP; for the PoP 32, 102709 (2025) item the first author is confirmed as S. D. Baalrud via the AIP listing, to be re-verified against the full author list at submission.)*
-
 ---
 
 ## Tables
@@ -182,7 +173,17 @@ All numerical results are reproduced by the released code (branch `faithful-cros
 
 (CM-frame energy; E_G = 22.589 MeV; bare-amplitude Breit–Wigner S-factor; integration to the upper validity bound of each parameterization. Full 100–600 keV table at 50-keV resolution in the released CSV.)
 
-### Table 2 — Multi-regime net-power summary (Wang cross section, conservative accounting)
+### Table 2 — Kinetic enhancement decomposition (Wang, T_i = 180 keV)
+
+| stage | enh | interpretation |
+|---|---:|---|
+| thermal FP (no alpha) | 0.83 | burnout depletes the tail |
+| + Putvinski Coulomb alpha | 1.08 | +8% (consistent with the literature ~10%) |
+| + Belloni R-matrix | 1.64 | ×1.5 increment from the nuclear factor |
+
+(enh ≡ P_F[f_kinetic]/P_F[Maxwell]; the thermal Fokker–Planck steady state, then the additive Coulomb (Putvinski) alpha drive and the Belloni R-matrix nuclear factor.)
+
+### Table 3 — Multi-regime net-power summary (Wang cross section, conservative accounting)
 
 | Regime | Quantity | Result | Threshold |
 |---|---|---|---|
@@ -196,12 +197,12 @@ All numerical results are reproduced by the released code (branch `faithful-cros
 
 ## Figure captions
 
-**Figure 1.** p-11B fusion cross section σ(E) (a) and Maxwellian reactivity ⟨σv⟩(T) (b) for the Tentori–Belloni 2023, Wang 2026, and Nevins–Swain 2000 parameterizations, all evaluated through the identical reactivity integrator. At 300 keV the reactivities are 4.37, 3.63, and 3.52×10⁻¹⁶ cm³/s. *(figures/cross_section_comparison.png)*
+**Figure 1.** p-11B fusion cross section σ(E) (a) and Maxwellian reactivity ⟨σv⟩(T) (b) for the Tentori–Belloni 2023, Wang 2026, and Nevins–Swain 2000 parameterizations, all evaluated through the identical reactivity integrator. At 300 keV the reactivities are 4.37, 3.63, and 3.52×10⁻¹⁶ cm³/s.
 
-**Figure 2.** Two-dimensional kinetic-uncertainty map. Because the enhancement depends only on p = (n_α/n_e)·F_scale, the ignition boundary is a hyperbola; the panel shows peak P_F/P_B over the (n_α, F_scale) plane for both cross sections, with the P_F/P_B = 1 contour, the defensible channeling-efficiency limit, and the Putvinski-only (no-R-matrix) reference. *(figures/sensitivity_2d.png)*
+**Figure 2.** Two-dimensional kinetic-uncertainty map. Because the enhancement depends only on p = (n_α/n_e)·F_scale, the ignition boundary is a hyperbola; the panel shows peak P_F/P_B over the (n_α, F_scale) plane for both cross sections, with the P_F/P_B = 1 contour, the defensible channeling-efficiency limit, and the Putvinski-only (no-R-matrix) reference.
 
-**Figure 3.** Combinatorial net-power scan (4.19×10⁶ Sobol samples, seven free levers). Top: distribution of P_net/P_brems for the two cross sections and the two recirculation-accounting variants, with the ignition threshold marked; the strict-accounting Wang distribution lies entirely below threshold. *(figures/montecarlo_hist.png, figures/montecarlo_projection.png)*
+**Figure 3.** Combinatorial net-power scan (4.19×10⁶ Sobol samples, seven free levers). Top: distribution of P_net/P_brems for the two cross sections and the two recirculation-accounting variants, with the ignition threshold marked; the strict-accounting Wang distribution lies entirely below threshold.
 
-**Figure 4.** Time-dependent two-temperature model. Left/representative: T_i(t), T_e(t) and P_fus(t), P_brems(t) showing the transient Te<Ti window (instantaneous P_fus/P_brems up to 2.7) and the cycle-integrated gain G ≪ 1. Right: G over the (T_{i,0}, τ_E) plane; G < 1 everywhere, including τ_E = 100 s. *(figures/pulsed_timeseries.png, figures/pulsed_Gmap.png)*
+**Figure 4.** Time-dependent two-temperature model. Left/representative: T_i(t), T_e(t) and P_fus(t), P_brems(t) showing the transient Te<Ti window (instantaneous P_fus/P_brems up to 2.7) and the cycle-integrated gain G ≪ 1. Right: G over the (T_{i,0}, τ_E) plane; G < 1 everywhere, including τ_E = 100 s.
 
-**Figure 5.** One-dimensional radial model. Left: hot-core/cold-edge profiles and the conductive power crossing each radius versus the cumulative fusion power (transport exceeds fusion by ~10⁴× at Bohm, B=10 T). Right: P_net/∫P_brems and log₁₀(P_transport/∫P_fus) over the (T_{i,core}, B) plane for Bohm and gyro-Bohm diffusivity. *(figures/radial_profiles.png, figures/radial_Pnet_maps.png)*
+**Figure 5.** One-dimensional radial model. Left: hot-core/cold-edge profiles and the conductive power crossing each radius versus the cumulative fusion power (transport exceeds fusion by ~10⁴× at Bohm, B=10 T). Right: P_net/∫P_brems and log₁₀(P_transport/∫P_fus) over the (T_{i,core}, B) plane for Bohm and gyro-Bohm diffusivity.
