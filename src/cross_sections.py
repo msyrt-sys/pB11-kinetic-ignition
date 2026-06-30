@@ -349,6 +349,29 @@ def sigma_NS(E_cm_keV):
     return sigma
 
 
+def sigma_v_NS_analytic(T_keV):
+    """Nevins-Swain 2000 ANALYTIC reactivity fit (Bosch-Hale/Peres form);
+    coefficients as tabulated by Tentori-Belloni 2023. Returns cm^3/s.
+
+    Stated validity ~ up to 500 keV; the fit plateaus at higher T. Provided
+    ONLY to quantify the offset between our NS S-factor integral (sigma_NS
+    through the common integrator) and this widely-cited analytic fit; the
+    analytic fit is NOT used anywhere in the power balance.
+
+    SELF-CHECK: <sv>_fit(300 keV) = 3.385e-16 cm^3/s; the NS S-factor integral
+    lies +3.9% (300), +9.2% (500), +11.4% (600 keV) above it.
+    """
+    B_G = np.sqrt(E_G_keV)              # Gamow constant (sqrt keV), E_G=22.589 MeV
+    mc2 = mu_pB11_keV                   # reduced-mass energy (keV)
+    P1, P2, P3 = 4.4467e-14, -5.9357e-2, 2.0165e-1
+    P4, P5, P6, P7 = 1.0404e-3, 2.7621e-3, -9.1653e-6, 9.8305e-7
+    T = np.atleast_1d(T_keV).astype(float)
+    theta = T / (1 - T * (P2 + T * (P4 + T * P6)) / (1 + T * (P3 + T * (P5 + T * P7))))
+    xi = (B_G**2 / (4 * theta))**(1.0 / 3.0)
+    # Bosch-Hale form yields m^3/s with these coefficients; ->cm^3/s (x1e6)
+    return 1e6 * P1 * theta * np.sqrt(xi / (mc2 * T**3)) * np.exp(-3 * xi)
+
+
 # ============================================================
 # PRODUCTION CROSS-SECTION SELECTOR
 # ============================================================

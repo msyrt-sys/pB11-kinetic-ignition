@@ -45,7 +45,7 @@ with E the center-of-mass (relative) energy and μ the p-11B reduced mass (μc²
 
 All energies are kept in the center-of-mass frame throughout the reactivity integral; the laboratory↔CM conversion (E_lab = E_cm·12/11 for a proton on a boron nucleus) enters only in the kinetic (lab-frame distribution) calculation of Sec. II.D. Integration limits and the resonance line-shape convention are stated in the released source.
 
-> **Footnote (NS reactivity).** Our NS reactivity values are obtained by direct S-factor integration. The widely-cited NS-2000 *analytic* reactivity fit is stated valid only to ~500 keV and plateaus beyond [Nevins & Swain 2000]; consequently our NS integral lies a few percent above that analytic fit at high temperature (of order +4% at 300 keV, growing toward +10% near 500 keV in our validation). Computing all three parameterizations through one faithful integrator—rather than mixing an analytic fit with numerical integrals—is a deliberate choice for internal consistency, not an error; the cross-section coefficients were verified three independent ways against the published TB Table 1.
+> **Footnote (NS reactivity).** Our NS reactivity values are obtained by direct S-factor integration through the common integrator. The widely-cited NS-2000 *analytic* reactivity fit (Bosch–Hale/Peres form) is stated valid only to ~500 keV and plateaus beyond [Nevins & Swain 2000]; evaluating it gives ⟨σv⟩ = 3.385×10⁻¹⁶ cm³/s at 300 keV, so that our NS S-factor integral lies **+3.9% (300 keV), +9.2% (500 keV), and +11.4% (600 keV)** above the analytic fit, the offset growing as the fit reaches its stated validity edge. Computing all three parameterizations through one faithful integrator—rather than mixing an analytic fit with numerical integrals—is a deliberate choice for internal consistency, not an error; the cross-section coefficients were verified three independent ways against the published TB Table 1, and the analytic-fit offset is reproduced by the released code.
 
 ### II.B Reactivity benchmark
 
@@ -66,13 +66,13 @@ The alpha-driven enhancement of the proton tail is computed from the slowing-dow
 Local power densities (W/cm³) are computed explicitly:
 
 - **Fusion:** P_F = n_p n_B ⟨σv⟩(T_i) Q, Q = 8.68 MeV (all charged).
-- **Bremsstrahlung:** the NRL classical form with the Svensson relativistic correction, P_B = 5.34×10⁻³¹ n_e² Z_eff √(T_e) · g(x), x = T_e/m_ec², where g(x) contains the e–i and e–e relativistic terms; these terms were checked term-by-term against an independent recent bremsstrahlung formulation. Z_eff and n_e follow a single ash-inclusive definition n_e = n_p + Z_B n_B + Z_α n_α, Z_eff = Σ n_i Z_i² / n_e.
+- **Bremsstrahlung:** the NRL classical form with the Svensson relativistic correction, P_B = 5.34×10⁻³¹ n_e² Z_eff √(T_e) · g(x), x = T_e/m_ec², where g(x) contains the e–i and e–e relativistic terms; these terms (the 0.7936, 1.874, and 3/√2 coefficients) were checked term-by-term against the independent relativistic bremsstrahlung formulation of Liu, Xie, et al. [9]. Z_eff and n_e follow a single ash-inclusive definition n_e = n_p + Z_B n_B + Z_α n_α, Z_eff = Σ n_i Z_i² / n_e.
 - **Ion–electron exchange:** P_ie from the Spitzer/Trubnikov energy-equilibration rate with the relativistic correction R(x); this matches the NRL Plasma Formulary expression.
 - **Self-consistent T_e:** determined by the electron power balance P_αe + P_ie = P_B, yielding T_e/T_i ≈ 0.42 over the relevant range (Sec. III.A), i.e. a naturally decoupled hot-ion mode.
 
 > **Footnote (Coulomb logarithm).** The Wang thermal peak is sensitive to the electron–ion Coulomb logarithm: P_F/P_B(peak) = 1.01, 1.05, 1.12, 1.18 for lnΛ = 17, 15, 12, 10. At the standard value lnΛ ≈ 17 the result is at threshold; the spread is a further modeling sensitivity of the near-threshold conclusion.
 
-All quantities are reproduced by two independent, separately-written implementations and cross-checked against the published external references cited above; the cross-check is qualitative (agreement on every reported quantity) and the data-availability statement gives the reproducible pipeline.
+The principal results were reproduced by an independent from-scratch reimplementation and cross-checked against the published external references cited above; the cross-check is qualitative (the implementations concur on the quantities tabulated here), and the data-availability statement gives the reproducible pipeline.
 
 ---
 
@@ -144,7 +144,7 @@ All numerical results are reproduced by the released code (branch `faithful-cros
 - Figure 4 — `scripts/pulsed_0d_model.py` (+ `pulsed_*.csv`); interpolation self-check (<0.1%).
 - Figure 5 — `scripts/radial_1d_model.py` (+ `radial_*.csv`); interpolation self-check (<0.1%) and a uniform-profile → 0-D reduction self-check (<1%).
 
-**Independent verification.** Every reported quantity was reproduced by a second, independently-written implementation, and anchored to published external evaluations (Tentori–Belloni 2023 cross section to 0.4%; Nevins–Swain low-temperature reactivity; the relativistic bremsstrahlung terms; and the NRL ion–electron exchange rate). The cross-section coefficients were validated three independent ways against the published Table 1.
+**Independent verification.** The principal results were reproduced by an independent from-scratch reimplementation, and anchored to published external evaluations (Tentori–Belloni 2023 cross section to 0.4%; Nevins–Swain low-temperature reactivity; the relativistic bremsstrahlung terms [9]; and the NRL ion–electron exchange rate). The cross-section coefficients were validated three independent ways against the published Table 1.
 
 ---
 
@@ -158,12 +158,12 @@ All numerical results are reproduced by the released code (branch `faithful-cros
 6. I. E. Ochs, E. J. Kolmes, M. E. Mlodik, T. Rubin, N. J. Fisch, *Phys. Rev. E* **106**, 055215 (2022), arXiv:2210.08076.
 7. T. H. Rider, *Phys. Plasmas* **2**, 1853 (1995); **4**, 1039 (1997).
 8. N. A. Krall et al. / NRL Plasma Formulary (ion–electron equilibration; Coulomb logarithm).
-9. R. Svensson, relativistic bremsstrahlung correction (and an independent recent formulation used for term-by-term verification).
+9. R. Svensson, *Astrophys. J.* **258**, 335 (1982) (relativistic bremsstrahlung correction); J. Liu, H. Xie, et al., *Phys. Plasmas* **31**, 062507 (2024), arXiv:2401.11338 (independent relativistic bremsstrahlung formulation, used for term-by-term verification of the 0.7936, 1.874, and 3/√2 coefficients).
 10. M. Stave et al., *Phys. Lett. B* **696**, 26 (2011).
 11. Curzadd et al., *Phys. Plasmas* **32**, 102709 (2025); Ochs, *Phys. Plasmas* **33**, 012703 (2026); Morozov & Mlodik, *Phys. Plasmas* **33**, 042705 (2026).
 12. *Evaluation of the Lawson criterion for aneutronic proton–boron-11 fusion*, Frontiers Nucl. Eng. (2026), doi:10.3389/fnuen.2026.1714531.
 
-*(Reference list to be completed/formatted to AIP style at submission. Items 8, 9, and 11–12 include externally-provided anchors flagged in the author's checklist.)*
+*(Reference list to be completed/formatted to AIP style at submission. Context items 11–12 are recent works supplied by the author and should be verified against the published record before submission.)*
 
 ---
 
