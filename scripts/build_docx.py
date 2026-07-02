@@ -7,7 +7,7 @@ unchanged; only formatting + embedded images).
 Five figures embedded from figures/ at their captions:
   Fig 1 -> cross_section_comparison.png
   Fig 2 -> sensitivity_2d.png
-  Fig 3 -> montecarlo_hist.png + montecarlo_projection.png
+  Fig 3 -> montecarlo_hist.png
   Fig 4 -> pulsed_timeseries.png + pulsed_Gmap.png
   Fig 5 -> radial_profiles.png + radial_Pnet_maps.png
 """
@@ -30,7 +30,7 @@ FIGDIR = os.path.join(ROOT, 'figures')
 FIG_MAP = {
     '1': ['cross_section_comparison.png'],
     '2': ['sensitivity_2d.png'],
-    '3': ['montecarlo_hist.png', 'montecarlo_projection.png'],
+    '3': ['montecarlo_hist.png'],
     '4': ['pulsed_timeseries.png', 'pulsed_Gmap.png'],
     '5': ['radial_profiles.png', 'radial_Pnet_maps.png'],
 }
