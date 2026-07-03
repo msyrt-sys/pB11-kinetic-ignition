@@ -43,8 +43,11 @@ IMG_W = Inches(6.4)
 SUB_RE = re.compile(r'([A-Za-zͰ-ω⟩∂])_(\{[^}]*\}|[A-Za-z0-9Ͱ-ω]+)')
 # superscript: ^ then {...} / (...) / token (incl greek, minus sign) / ∞
 SUP_RE = re.compile(r'\^(\{[^}]*\}|\([^)]*\)|[A-Za-z0-9.−Ͱ-ω\-+/]+|∞)')
-# inline emphasis / code
-SPAN_RE = re.compile(r'(`[^`]*`|\*\*[^*]+\*\*|\*[^*]+\*)')
+# inline emphasis / code. Bold is non-greedy so it may contain literal single
+# asterisks (e.g. the math star in "p*(Wang)"); italic uses CommonMark-style
+# flanking (opening * not preceded by a word char, closing * not followed by
+# one) so a bare "p*" is left literal instead of starting emphasis.
+SPAN_RE = re.compile(r'(`[^`]*`|\*\*.+?\*\*|(?<![\w*])\*(?!\s)[^*]+?(?<!\s)\*(?![\w*]))')
 
 
 def _scriptify(s):
