@@ -4,3 +4,8 @@ docs/*.out
 docs/*Notes.bib
 docs/*.synctex.gz
 **/__pycache__/
+docs/manuscript_TR.md
+docs/cover_letter.md
+docs/referee_response.md
+docs/revision_skeleton.md
+docs/theory_notes.md
