@@ -250,7 +250,8 @@ def main():
                  f'$\\kappa_T$={args.kappa_T}, Bohm $\\chi$, B=10T)', fontsize=12)
     fig.tight_layout(rect=(0, 0, 1, 0.95))
     out_p = os.path.join(args.out, 'radial_profiles.png')
-    fig.savefig(out_p, dpi=135, bbox_inches='tight'); plt.close(fig)
+    fig.savefig(out_p, dpi=300, bbox_inches='tight')
+    fig.savefig(out_p.replace('.png', '.pdf'), bbox_inches='tight'); plt.close(fig)
 
     # ---- P_net and P_transport/P_fus maps ----
     Ti_axis = np.linspace(200.0, 600.0, args.ti_points)
@@ -306,7 +307,8 @@ def main():
                   fontsize=12)
     fig2.tight_layout(rect=(0, 0, 1, 0.96))
     out_m = os.path.join(args.out, 'radial_Pnet_maps.png')
-    fig2.savefig(out_m, dpi=125, bbox_inches='tight'); plt.close(fig2)
+    fig2.savefig(out_m, dpi=300, bbox_inches='tight')
+    fig2.savefig(out_m.replace('.png', '.pdf'), bbox_inches='tight'); plt.close(fig2)
 
     with open(os.path.join(args.out, 'radial_grid.csv'), 'w', newline='') as f:
         w = csv.writer(f)

@@ -289,7 +289,8 @@ def main():
                  f'{N:,} Sobol samples (dashed = ignition threshold)', fontsize=12)
     fig.tight_layout(rect=(0, 0, 1, 0.96))
     out1 = os.path.join(args.out, 'montecarlo_hist.png')
-    fig.savefig(out1, dpi=135, bbox_inches='tight')
+    fig.savefig(out1, dpi=300, bbox_inches='tight')
+    fig.savefig(out1.replace('.png', '.pdf'), bbox_inches='tight')  # vector for submission
     plt.close(fig)
 
     # ---- figure 2: projection of positives (where they live) ----
@@ -323,7 +324,8 @@ def main():
                       fontsize=13)
     fig2.tight_layout(rect=(0, 0, 1, 0.94))
     out2 = os.path.join(args.out, 'montecarlo_projection.png')
-    fig2.savefig(out2, dpi=135, bbox_inches='tight')
+    fig2.savefig(out2, dpi=300, bbox_inches='tight')
+    fig2.savefig(out2.replace('.png', '.pdf'), bbox_inches='tight')  # vector for submission
     plt.close(fig2)
 
     print("-" * 88)

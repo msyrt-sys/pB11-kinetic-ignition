@@ -317,7 +317,8 @@ def make_figure(M, args, out_png):
                  f'($n_i$={args.n_i:.0e} cm$^{{-3}}$, $f_B$={args.f_B}, '
                  'kinetic-peak over $T_i$)', fontsize=13)
     fig.tight_layout(rect=(0, 0, 1, 0.96))
-    fig.savefig(out_png, dpi=140, bbox_inches='tight')
+    fig.savefig(out_png, dpi=300, bbox_inches='tight')
+    fig.savefig(out_png.replace('.png', '.pdf'), bbox_inches='tight')  # vector for submission
     plt.close(fig)
 
 

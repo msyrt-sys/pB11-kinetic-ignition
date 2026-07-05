@@ -78,7 +78,7 @@ $T$ (keV) & TB 2023 & Wang 2026 & NS 2000 & TB/Wang & TB/NS \\
 
 \begin{figure*}
 \centering
-\includegraphics[width=\textwidth]{cross_section_comparison.png}
+\includegraphics[width=\textwidth]{cross_section_comparison.pdf}
 \caption{p-$^{11}$B fusion cross section $\sigma(E)$ (a) and Maxwellian reactivity $\langle\sigma v\rangle(T)$ (b) for the Tentori--Belloni 2023, Wang 2026, and Nevins--Swain 2000 parameterizations, all evaluated through the identical reactivity integrator. At 300~keV the reactivities are 4.37, 3.63, and $3.52\times10^{-16}$~cm$^3$/s.}
 \label{fig:xsec}
 \end{figure*}
@@ -144,7 +144,7 @@ The alpha$\to$proton diffusion scales as the product of the steady-state alpha d
 
 \begin{figure*}
 \centering
-\includegraphics[width=\textwidth]{sensitivity_2d.png}
+\includegraphics[width=\textwidth]{sensitivity_2d.pdf}
 \caption{Two-dimensional kinetic-uncertainty map. Because the enhancement depends only on $p = (n_\alpha/n_e)\cdot F_\mathrm{scale}$, the ignition boundary is a hyperbola; the panel shows peak $P_F/P_B$ over the $(n_\alpha, F_\mathrm{scale})$ plane for both cross sections, with the $P_F/P_B = 1$ contour, the defensible channeling-efficiency limit, and the Putvinski-only (no-R-matrix) reference.}
 \label{fig:sens2d}
 \end{figure*}
@@ -163,23 +163,23 @@ Table~\ref{tab:multiregime} consolidates the four regimes. Five distinct modelin
 
 \begin{figure*}
 \centering
-\includegraphics[width=\textwidth]{montecarlo_hist.png}
+\includegraphics[width=\textwidth]{montecarlo_hist.pdf}
 \caption{Combinatorial net-power scan ($4.19\times10^6$ Sobol samples, seven free levers): distribution of $P_\mathrm{net}/P_\mathrm{brems}$ for the two cross sections and the two recirculation-accounting variants, with the ignition threshold marked. The strict-accounting Wang distribution lies entirely below threshold.}
 \label{fig:mc}
 \end{figure*}
 
 \begin{figure*}
 \centering
-\includegraphics[width=0.72\textwidth]{pulsed_timeseries.png}\\[6pt]
-\includegraphics[width=0.72\textwidth]{pulsed_Gmap.png}
+\includegraphics[width=0.72\textwidth]{pulsed_timeseries.pdf}\\[6pt]
+\includegraphics[width=0.72\textwidth]{pulsed_Gmap.pdf}
 \caption{Time-dependent two-temperature model. Left: $T_i(t)$, $T_e(t)$ and $P_\mathrm{fus}(t)$, $P_\mathrm{brems}(t)$ showing the transient $T_e<T_i$ window (instantaneous $P_\mathrm{fus}/P_\mathrm{brems}$ up to 2.7) and the cycle-integrated gain $G \ll 1$. Right: $G$ over the $(T_{i,0}, \tau_E)$ plane; $G < 1$ everywhere, including $\tau_E = 100$~s.}
 \label{fig:pulsed}
 \end{figure*}
 
 \begin{figure*}
 \centering
-\includegraphics[width=\textwidth]{radial_profiles.png}\\[6pt]
-\includegraphics[width=\textwidth]{radial_Pnet_maps.png}
+\includegraphics[width=\textwidth]{radial_profiles.pdf}\\[6pt]
+\includegraphics[width=\textwidth]{radial_Pnet_maps.pdf}
 \caption{One-dimensional radial model. Left: hot-core/cold-edge profiles and the conductive power crossing each radius versus the cumulative fusion power (transport exceeds fusion by $\sim\!10^4\times$ at Bohm, $B=10$~T). Right: $P_\mathrm{net}/\!\int\! P_\mathrm{brems}$ and $\log_{10}(P_\mathrm{transport}/\!\int\! P_\mathrm{fus})$ over the $(T_{i,\mathrm{core}}, B)$ plane for Bohm and gyro-Bohm diffusivity.}
 \label{fig:radial}
 \end{figure*}

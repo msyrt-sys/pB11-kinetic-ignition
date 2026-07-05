@@ -65,7 +65,8 @@ def main():
     fig.suptitle('p-$^{11}$B cross section and reactivity: three parameterizations '
                  'on an identical footing', fontsize=12)
     fig.tight_layout(rect=(0, 0, 1, 0.95))
-    fig.savefig(OUT, dpi=140, bbox_inches='tight')
+    fig.savefig(OUT, dpi=300, bbox_inches='tight')
+    fig.savefig(OUT.replace('.png', '.pdf'), bbox_inches='tight')  # vector for submission
     plt.close(fig)
     print('[OK]', OUT)
     print('TB/Wang(300)=%.3f  TB/NS(300)=%.3f'

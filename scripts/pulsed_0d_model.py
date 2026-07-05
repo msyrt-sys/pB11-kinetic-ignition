@@ -253,7 +253,8 @@ def main():
                  f'hot-ion, $T_{{e,0}}$={args.te_ratio}$T_{{i,0}}$)', fontsize=12)
     fig.tight_layout(rect=(0, 0, 1, 0.96))
     out_ts = os.path.join(args.out, 'pulsed_timeseries.png')
-    fig.savefig(out_ts, dpi=135, bbox_inches='tight'); plt.close(fig)
+    fig.savefig(out_ts, dpi=300, bbox_inches='tight')
+    fig.savefig(out_ts.replace('.png', '.pdf'), bbox_inches='tight'); plt.close(fig)
 
     # ---- G maps ----
     cases = [('wang', 0.0), ('TB', 0.0), ('wang', 0.3), ('TB', 0.3)]
@@ -305,7 +306,8 @@ def main():
                   fontsize=12)
     fig2.tight_layout(rect=(0, 0, 1, 0.96))
     out_g = os.path.join(args.out, 'pulsed_Gmap.png')
-    fig2.savefig(out_g, dpi=130, bbox_inches='tight'); plt.close(fig2)
+    fig2.savefig(out_g, dpi=300, bbox_inches='tight')
+    fig2.savefig(out_g.replace('.png', '.pdf'), bbox_inches='tight'); plt.close(fig2)
 
     with open(os.path.join(args.out, 'pulsed_Gmap.csv'), 'w', newline='') as f:
         w = csv.writer(f)
