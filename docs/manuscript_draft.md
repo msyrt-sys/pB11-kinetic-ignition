@@ -101,7 +101,7 @@ The alpha→proton diffusion scales as the product of the steady-state alpha den
 
 We now retain *every* loss channel and ask whether a positive net-power window opens in any regime. The budget is P_net = P_fus − P_brems − P_drive − P_relax, where P_drive is the wave-drive cost of any channeling and P_relax is the recirculating cost of maintaining the non-equilibrium (the e–i recirculation à la Rider, and the suprathermal-tail maintenance). Two accounting variants bracket the recirculation: a no-double-count variant (electron-power excess over bremsstrahlung) and a strict (Rider) variant (full e–i transfer).
 
-**Combinatorial (steady-state).** A Sobol scan of **4.19×10⁶** parameter combinations over seven simultaneously-free levers (ion temperature, T_e/T_i, boron fraction, alpha density, channeling efficiency ≤ 0.5, tail fraction, drive efficiency, plus impurity and synchrotron losses) finds, under the strict (Rider) accounting and the modern Wang cross section, **no positive net-power sample** (best case 14% below threshold). Under the lenient accounting only 2 of 4.19×10⁶ samples are positive, and both require *every* optimistic lever simultaneously pinned at its ceiling (channeling efficiency ≈ 0.49, forced electron cooling below the self-consistent value, near-zero synchrotron, aggressive ash removal); neither lies in the demonstrated-physics sub-box (η_ch ≤ 0.20, T_e/T_i ≥ 0.40, n_α/n_e ≥ 0.01), which contains zero positive samples. Both positive samples' full coordinates are tabulated in the released `montecarlo_*.csv`. Two independent accounting approaches bracket the conservative margin at **−14% to −76%**, both negative. Figure 3 shows the net-power distribution.
+**Combinatorial (steady-state).** A Sobol scan of **4.19×10⁶** parameter combinations over seven simultaneously-free levers (ion temperature, T_e/T_i, boron fraction, alpha density, channeling efficiency ≤ 0.5, tail fraction, drive efficiency, plus impurity and synchrotron losses; full ranges in Table 4) finds, under the strict (Rider) accounting and the modern Wang cross section, **no positive net-power sample** (best case 14% below threshold). Under the lenient accounting only 2 of 4.19×10⁶ samples are positive, and both require *every* optimistic lever simultaneously pinned at its ceiling (channeling efficiency ≈ 0.49, forced electron cooling below the self-consistent value, near-zero synchrotron, aggressive ash removal); neither lies in the demonstrated-physics sub-box (η_ch ≤ 0.20, T_e/T_i ≥ 0.40, n_α/n_e ≥ 0.01), which contains zero positive samples. Both positive samples' full coordinates are tabulated in the released `montecarlo_*.csv`. Two independent accounting approaches bracket the conservative margin at **−14% to −76%**, both negative. Figure 3 shows the net-power distribution.
 
 **Time-dependent (transient).** A two-temperature 0-D model evolved with a stiff integrator (instantaneous hot-ion spark, finite confinement time τ_E) tests the transient T_e<T_i window. The instantaneous P_fus/P_brems reaches ~2.7 while the electrons are cold, but the **cycle-integrated gain** G = E_fus/(E_spark + E_brems + E_trans) is ~0.02 at the achievable τ_E (~1 s) and **remains below 0.4 even at τ_E = 100 s** (the perfect-confinement limit)—i.e. not even a confinement artifact. Crediting all alpha power to the ions (the most ion-favorable accounting) raises this only to G ≲ 0.36. The hot-ion spark energy exceeds the fusion produced before the plasma cools by a factor of order 50. Figure 4 shows representative trajectories and the G-map.
 
@@ -202,6 +202,23 @@ All numerical results are reproduced by the released code with a fixed environme
 | Combinatorial | positive samples / 4.19×10⁶ (strict) | 0 (best −14%; bracket to −76%) | none |
 | Transient | cycle gain G (achievable τ_E) | ~0.02 (<0.4 at τ_E=100 s; ≤0.36 α→ions) | ≪ 1 |
 | Spatial 1-D | P_transport / P_fus (realistic χ) | 20× – 10⁴× | ≫ 1 |
+
+### Table 4 — Sobol scan lever ranges (combinatorial scan, Sec. III.D)
+
+| Lever | Symbol | Range | Rationale |
+|---|---|---|---|
+| Ion temperature | T_i | 150–600 keV | Reactivity-relevant window; ⟨σv⟩ peaks near 600 keV, negligible fusion below ~150 keV. |
+| Temperature ratio | T_e/T_i | 0.30–1.00 | Below the self-consistent value (~0.42) up to full thermalization; sub-self-consistent values are charged via P_relax. |
+| Boron fraction | f_B | 0.05–0.30 | Brackets the reactivity-optimal fraction (~0.13); higher f_B raises Z_eff and bremsstrahlung. |
+| Ash fraction | n_α/n_e | 0.001–0.05 | From active ash removal [6] to accumulation without active removal. |
+| Channeling efficiency | η_ch | 0–0.5 | Zero to the idealized-theory ceiling; η_ch > 0.5 is not a demonstrated value [6]. |
+| Tail fraction | f_tail | 0.10–0.60 | Fraction of channeled power feeding the reactive suprathermal tail; upper end optimistic. |
+| Drive efficiency | η_drive | 0.30–0.80 | Practical-to-optimistic RF/wave-drive efficiency. |
+| Impurity fraction | f_imp | 0–0.02 | Clean plasma to a few-percent high-Z wall contamination. |
+| Synchrotron loss | ξ_sync | 0–0.30 | Synchrotron loss as a fraction of bremsstrahlung; 0 (fully reabsorbed) to 0.30. |
+| Impurity charge | Z_imp | {6, 26} | Carbon and iron (realistic high-Z wall); since bremsstrahlung ∝ Z², a single low-Z would understate the penalty. |
+
+(Ranges are the actual Sobol bounds of `scripts/alpha_channeling_montecarlo.py`; ion density n_i is not a lever because P_net/P_brems is density-independent (both ∝ n²), and Z_imp is a discrete two-value scenario. The null result (0 of 4.19×10⁶) is therefore not an artifact of a narrow sampling box: even with every lever at its most optimistic bound, no positive net-power sample survives strict (Rider) accounting.)
 
 ---
 
