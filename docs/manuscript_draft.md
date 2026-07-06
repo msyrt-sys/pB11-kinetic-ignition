@@ -38,7 +38,7 @@ We evaluate the Maxwellian reactivity
 with E the center-of-mass (relative) energy and μ the p-11B reduced mass (μc² = 859.5 MeV), for three astrophysical-S-factor parameterizations evaluated through the **same** integrator and the same Gamow form σ(E) = [S(E)/E] exp(−√(E_G/E)), E_G = 22.589 MeV:
 
 - **Tentori–Belloni 2023 (TB)** [2] — Table 1 "this work" column, three energy segments with bare-amplitude Breit–Wigner resonances;
-- **Wang et al. 2026 (Wang)** [3] — Table 1, five resonances, the 148 keV narrow resonance retained;
+- **Wang et al. 2026 (Wang)** [3] — Table 1, five resonances, the 148 keV narrow resonance retained (a preprint, not yet peer-reviewed; adopted here as the primary modern cross section);
 - **Nevins–Swain 2000 (NS)** [4] — the "Nevins and Swain" reference column of TB Table 1, evaluated identically.
 
 All energies are kept in the center-of-mass frame throughout the reactivity integral; the laboratory↔CM conversion (E_lab = E_cm·12/11 for a proton on a boron nucleus) enters only in the kinetic (lab-frame distribution) calculation of Sec. II.D. Integration limits and the resonance line-shape convention are stated in the released source.
@@ -115,6 +115,8 @@ Table 3 consolidates the four regimes. Five distinct modeling sensitivities are 
 
 The picture that emerges is internally consistent and consistent with the literature. The thermal margin with the modern Wang cross section (~1.01) reproduces the few-percent margin and onerous confinement requirement of the original Putvinski analysis [1]; the present study is a *confirmation within uncertainty*, not a contradiction. The equilibrium, combinatorial, transient, and spatial regimes provide four independent realizations of the recirculating-power limit on non-equilibrium fusion systems [7]: maintaining the non-thermal feature that helps (a suprathermal tail, a two-temperature state, a spatial gradient) costs more than it returns once the maintenance cost is charged.
 
+A specific reconciliation is warranted with Wang et al. [3], whose evaluation of the same cross section concludes that bremsstrahlung does not preclude p-11B ignition. At the level of a thermal fusion-to-bremsstrahlung balance we concur—with the identical parameterization our thermal ratio peaks marginally above unity (~1.01)—so the divergence is not one of cross-section physics but of accounting completeness. A bare thermal P_fus/P_brems comparison reads a near-unity ratio as "not precluded," whereas the present budget additionally charges the wave-drive and recirculation costs of any non-equilibrium enhancement (P_drive, P_relax, à la Rider) and propagates losses across the combinatorial, transient, and spatial regimes; under this fuller accounting the near-unity thermal margin becomes a fragile, threshold-level result with no positive net-power window. Wang's conclusion is therefore not contradicted but shown to be sensitive to the completeness of the loss accounting—the very sensitivity that is this work's central theme.
+
 The two most discussed enhancement mechanisms enter as follows. The alpha-channeling/ash-demixing schemes [6], and subsequent spatial-separation proposals, can in principle reduce bremsstrahlung and feed the reactive tail, but in the present budget their drive and recirculation costs offset the gain at demonstrated efficiencies; the positive island, where it exists at all, requires channeling efficiencies and ash-removal rates well above demonstrated values and is therefore an unproven precondition rather than a result. The R-matrix elastic enhancement is the single lever that converts the Wang kinetic peak from sub-ignition to ~1.26; given its factor-two uncertainty, a quantitative ignition claim cannot rest on it without an independent calibration.
 
 We deliberately avoid characterizing earlier optimistic estimates as artifacts; the differences are quantitatively attributable to specific, individually-defensible modeling choices (cross-section parameterization, enhancement magnitude, loss accounting), and the contribution of this work is to make those choices explicit and to propagate their uncertainty. The 0-D/1-D scope is also a limitation: a positive island, were one to survive a full transport calculation, would not be excluded by the present treatment—but the consistent negativity across four independent regimes, each biased toward the optimistic side where assumptions were required, places the burden of proof on any future positive claim.
@@ -153,7 +155,7 @@ All numerical results are reproduced by the released code with a fixed environme
 
 1. S. V. Putvinski, D. D. Ryutov, P. N. Yushmanov, *Nucl. Fusion* **59**, 076018 (2019).
 2. A. Tentori, F. Belloni, *Nucl. Fusion* **63**, 086001 (2023).
-3. H.-Y. Wang, Y.-Q. Li, Q. Wu, Z.-F. Cui, *Revisiting p-11B Fusion: Updated Cross-sections, Reactivity, and Energy Balance*, arXiv:2601.00241 (2026).
+3. H.-Y. Wang, Y.-Q. Li, Q. Wu, Z.-F. Cui, *Revisiting p-11B Fusion: Updated Cross-sections, Reactivity, and Energy Balance*, arXiv:2601.00241 (2026) (preprint, not yet peer-reviewed).
 4. W. M. Nevins, R. Swain, *Nucl. Fusion* **40**, 865 (2000).
 5. F. Belloni, *Plasma Phys. Control. Fusion* **63**, 055020 (2021).
 6. I. E. Ochs, E. J. Kolmes, M. E. Mlodik, T. Rubin, N. J. Fisch, *Phys. Rev. E* **106**, 055215 (2022), arXiv:2210.08076.
