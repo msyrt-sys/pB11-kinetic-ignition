@@ -66,6 +66,8 @@ import matplotlib.pyplot as plt       # noqa: E402
 
 keV_to_erg = cs.keV_to_erg
 Q_erg = cs.Q_pB11_keV * keV_to_erg
+DISP = {'wang': 'Wang', 'TB': 'TB'}          # publication display names
+CHI = {'bohm': 'Bohm', 'gyro': 'gyro-Bohm'}  # diffusivity display names
 A_MINOR = 100.0          # cm, minor radius
 N_R = 300
 LNL = 17.0
@@ -289,13 +291,13 @@ def main():
         if np.any(Rnet > 0):
             axA.contour(Ti_axis, B_axis, Rnet, levels=[0], colors='k', linewidths=3)
         axA.set_xlabel('$T_{i,core}$ (keV)'); axA.set_ylabel('B (T)')
-        axA.set_title(f'{xs}, {chim}-Bohm: $P_\\mathrm{{net}}/\\!\\int\\! P_\\mathrm{{brems}}$')
+        axA.set_title(f'{DISP[xs]}, {CHI[chim]}: $P_\\mathrm{{net}}/\\!\\int\\! P_\\mathrm{{brems}}$')
         plt.colorbar(cf, ax=axA)
         axB = axes2[1][j]
         cfb = axB.contourf(Ti_axis, B_axis, np.log10(np.clip(Rtr, 1, 1e7)),
                            levels=np.linspace(0, 6, 25), cmap='inferno')
         axB.set_xlabel('$T_{i,core}$ (keV)'); axB.set_ylabel('B (T)')
-        axB.set_title(f'{xs}, {chim}: $\\log_{{10}}(P_\\mathrm{{transport}}/\\!\\int\\! P_\\mathrm{{fus}})$')
+        axB.set_title(f'{DISP[xs]}, {CHI[chim]}: $\\log_{{10}}(P_\\mathrm{{transport}}/\\!\\int\\! P_\\mathrm{{fus}})$')
         plt.colorbar(cfb, ax=axB, label='$\\log_{10}$ ratio')
 
         isl = bool(np.any(Rnet > 0))

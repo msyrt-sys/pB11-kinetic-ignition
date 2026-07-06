@@ -77,6 +77,10 @@ E_CM_PEAK = 600.0
 E_TAIL_LAB = E_CM_PEAK * (m_p_g + m_B_g) / m_B_g          # keV (lab)
 E_TAIL_LAB_ERG = E_TAIL_LAB * keV_to_erg
 V_TAIL = np.sqrt(2 * E_TAIL_LAB_ERG / m_p_g)
+DISP = {'wang': 'Wang', 'TB': 'TB'}  # publication display names
+SYM = {'eta_ch': '$\\eta_\\mathrm{ch}$', 'r_ash': '$n_\\alpha/n_e$',
+       'tau': '$T_e/T_i$', 'f_tail': '$f_\\mathrm{tail}$',
+       'eta_drive': '$\\eta_\\mathrm{drive}$'}
 # slowing-down SI constants (Goldston-Rutherford, alpha; A/Z^2 same for proton)
 _M_E_KG, _M_A_KG = 9.1093837015e-31, 6.6446573357e-27
 _E_C, _EPS0 = 1.602176634e-19, 8.8541878128e-12
@@ -279,11 +283,11 @@ def main():
             for Zimp, c in ((6, 'tab:green'), (26, 'tab:red')):
                 rr = np.clip(results[(xs, Zimp, vi)], -2.0, 0.6)
                 ax.hist(rr, bins=160, histtype='step', color=c, lw=1.8,
-                        label=f'Z_imp={Zimp}', log=True)
+                        label=f'$Z_\\mathrm{{imp}}={Zimp}$', log=True)
             ax.axvline(0.0, color='k', ls='--', lw=1.5)
-            ax.set_xlabel('$P_{net}/P_{brems}$')
+            ax.set_xlabel('$P_\\mathrm{net}/P_\\mathrm{brems}$')
             ax.set_ylabel('count (log)')
-            ax.set_title(f'{xs} — P_relax variant ({vi})')
+            ax.set_title(f'{DISP[xs]} — $P_\\mathrm{{relax}}$ variant ({vi})')
             ax.legend(fontsize=9)
     fig.suptitle('p-$^{11}$B alpha-channeling: net-power distribution over '
                  f'{N:,} Sobol samples (dashed = ignition threshold)', fontsize=12)
@@ -310,11 +314,11 @@ def main():
         cols = {n: X[pos, i] for i, n in enumerate(names)}
         for ax, (px, py) in zip(axes2, planes):
             sc = ax.scatter(cols[px], cols[py], c=rr, s=4, cmap='viridis')
-            ax.set_xlabel(px)
-            ax.set_ylabel(py)
-            plt.colorbar(sc, ax=ax, label='$P_{net}/P_{brems}$')
-        fig2.suptitle(f'Positive-island samples: {proj_key[0]}, Z_imp='
-                      f'{proj_key[1]}, P_relax ({proj_key[2]}) — '
+            ax.set_xlabel(SYM.get(px, px))
+            ax.set_ylabel(SYM.get(py, py))
+            plt.colorbar(sc, ax=ax, label='$P_\\mathrm{net}/P_\\mathrm{brems}$')
+        fig2.suptitle(f'Positive-island samples: {DISP[proj_key[0]]}, $Z_\\mathrm{{imp}}$='
+                      f'{proj_key[1]}, $P_\\mathrm{{relax}}$ ({proj_key[2]}) — '
                       f'{int(pos.sum()):,} of {N:,}', fontsize=12)
     else:
         for ax in axes2:

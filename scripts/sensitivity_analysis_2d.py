@@ -225,6 +225,7 @@ def build_maps(args):
 # ------------------------------------------------------------------
 NOMINAL = (0.05, 1.0)        # code's operating point
 CONSERVATIVE = (0.01, 0.5)   # defensible conservative point
+DISP = {'wang': 'Wang', 'TB': 'TB'}  # publication display names
 
 
 def make_figure(M, args, out_png):
@@ -241,7 +242,7 @@ def make_figure(M, args, out_png):
         peak = res[sigma]['peak']
         cf = ax.contourf(na, fs, peak, levels=levels, cmap='RdYlGn', extend='both')
         cl = ax.contour(na, fs, peak, levels=[1.0], colors='k', linewidths=3)
-        ax.clabel(cl, fmt='P_F/P_B=1', fontsize=9)
+        ax.clabel(cl, fmt='$P_F/P_B=1$', fontsize=9)
         # sub-ignition hatch
         ax.contourf(na, fs, peak, levels=[0, 1.0], colors='none',
                     hatches=['xxx'], alpha=0)
@@ -251,7 +252,7 @@ def make_figure(M, args, out_png):
                 ls='', label='conservative (0.01, 0.5)')
         ax.set_xlabel(r'$n_\alpha/n_e$', fontsize=12)
         ax.set_ylabel(r'Belloni $F$-factor scale', fontsize=12)
-        ax.set_title(f'({chr(97+col)}) peak $P_F/P_B$ — {sigma} cross section',
+        ax.set_title(f'({chr(97+col)}) peak $P_F/P_B$ — {DISP[sigma]} cross section',
                      fontsize=12)
         ax.legend(loc='upper right', fontsize=8, framealpha=0.9)
         plt.colorbar(cf, ax=ax, label='peak $P_F/P_B$')
@@ -273,7 +274,7 @@ def make_figure(M, args, out_png):
     ax.set_title('(c) ignition boundary ($P_F/P_B=1$) and sub-ignition region',
                  fontsize=12)
     legend_el = [Line2D([0], [0], color=colors.get(s, 'k'), lw=2.5,
-                        label=f'{s}: $P_F/P_B=1$') for s in sigmas]
+                        label=f'{DISP[s]}: $P_F/P_B=1$') for s in sigmas]
     legend_el += [
         Line2D([0], [0], marker='*', mfc='white', mec='k', ls='', ms=14,
                label='code nominal'),
@@ -287,7 +288,7 @@ def make_figure(M, args, out_png):
     for sigma in sigmas:
         ax.semilogx(M['p_grid'][1:], res[sigma]['peak1d'][1:],
                     lw=2.5, color=colors.get(sigma, 'k'),
-                    label=f'{sigma}  ($p^*$={res[sigma]["p_star"]:.3f})')
+                    label=f'{DISP[sigma]}  ($p^*$={res[sigma]["p_star"]:.3f})')
     ax.axhline(1.0, color='k', ls=':', lw=1.5, label='ignition threshold')
     ax.axvline(NOMINAL[0] * NOMINAL[1], color='gray', ls='--', lw=1.2,
                label=f'nominal p={NOMINAL[0]*NOMINAL[1]:.3f}')
@@ -299,7 +300,7 @@ def make_figure(M, args, out_png):
                    ls='-.', lw=1.2, alpha=0.7)
     pu_txt = ("Putvinski-only (Coulomb $\\alpha$, no R-matrix) @ "
               "$n_\\alpha/n_e$=0.05:\n"
-              + " ;  ".join(f"{s} = {res[s]['putv_peak']:.2f}"
+              + " ;  ".join(f"{DISP[s]} = {res[s]['putv_peak']:.2f}"
                             + ("" if res[s]['putv_peak'] >= 1 else " (sub-ign.)")
                             for s in sigmas))
     ax.text(0.03, 0.97, pu_txt, transform=ax.transAxes, fontsize=7.5,
@@ -314,7 +315,7 @@ def make_figure(M, args, out_png):
 
     fig.suptitle('p-$^{11}$B kinetic ignition: sensitivity to alpha density and '
                  'R-matrix scattering\n'
-                 f'($n_i$={args.n_i:.0e} cm$^{{-3}}$, $f_B$={args.f_B}, '
+                 f'($n_i=10^{{{int(round(np.log10(args.n_i)))}}}$ cm$^{{-3}}$, $f_B$={args.f_B}, '
                  'kinetic-peak over $T_i$)', fontsize=13)
     fig.tight_layout(rect=(0, 0, 1, 0.96))
     fig.savefig(out_png, dpi=300, bbox_inches='tight')

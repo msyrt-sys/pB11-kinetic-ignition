@@ -71,6 +71,7 @@ from scipy.integrate import solve_ivp  # noqa: E402
 
 keV_to_erg = cs.keV_to_erg
 Q_erg = cs.Q_pB11_keV * keV_to_erg
+DISP = {'wang': 'Wang', 'TB': 'TB'}  # publication display names
 LNL = 17.0
 N_I = 1e14
 TAU_E_ACHIEVABLE = 1.0      # s, generous magnetic-confinement reference at 1e14
@@ -239,7 +240,7 @@ def main():
         ax.plot(r['tt'], r['Ti'], 'r-', lw=2, label='$T_i$')
         ax.plot(r['tt'], r['Te'], 'b-', lw=2, label='$T_e$')
         ax.set_xlabel('t (s)'); ax.set_ylabel('T (keV)')
-        ax.set_title(f'{xs}  $T_{{i,0}}$={Ti0:.0f}, $\\tau_E$={tauE:g}s, '
+        ax.set_title(f'{DISP[xs]}  $T_{{i,0}}$={Ti0:.0f}, $\\tau_E$={tauE:g}s, '
                      f'$\\tau_{{ie}}$={r["tau_ie"]:.2f}s  →  G={r["G"]:.3f}')
         ax.legend(fontsize=9); ax.grid(alpha=0.3)
         ax = axes[i][1]
@@ -283,7 +284,7 @@ def main():
                    label='achievable $\\tau_E$ ~1s')
         ax.set_yscale('log'); ax.set_xlabel('$T_{i,0}$ (keV)')
         ax.set_ylabel('$\\tau_E$ (s)')
-        ax.set_title(f'{xs}, $\\eta_{{ch}}$={ech} — G (black=G=1)')
+        ax.set_title(f'{DISP[xs]}, $\\eta_\\mathrm{{ch}}$={ech} — G (black=G=1)')
         ax.legend(fontsize=8, loc='upper left')
         plt.colorbar(cf, ax=ax, label='$G = E_\\mathrm{fus}/(E_\\mathrm{spark}+E_\\mathrm{brems}+E_\\mathrm{trans})$')
         # island detection within achievable tau_E

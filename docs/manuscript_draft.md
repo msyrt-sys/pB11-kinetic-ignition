@@ -47,7 +47,7 @@ All energies are kept in the center-of-mass frame throughout the reactivity inte
 
 ### II.B Reactivity benchmark
 
-Table 1 reports ⟨σv⟩(T) for the three parameterizations from 100 to 600 keV. At 300 keV, **TB = 4.37×10⁻¹⁶, Wang = 3.63×10⁻¹⁶, NS = 3.52×10⁻¹⁶ cm³/s**. The TB/Wang ratio is nearly flat at ~1.20; the TB/NS ratio rises from 1.24 (300 keV) to 1.45 (600 keV). The TB curve agrees with the original Tentori–Belloni tabulation to within 0.4%, and the low-temperature NS values are consistent with independent recent evaluations [12], and the parameterized cross sections reproduce the measured ¹¹B(p,α) S-factor [10]. Figure 1 shows σ(E) and ⟨σv⟩(T) for all three. The ~20% spread in the reactivity is the single largest modeling uncertainty entering the power balance and is propagated explicitly below.
+Table 1 reports ⟨σv⟩(T) for the three parameterizations from 100 to 600 keV. At 300 keV, **TB = 4.37×10⁻¹⁶, Wang = 3.63×10⁻¹⁶, NS = 3.52×10⁻¹⁶ cm³/s**. The TB/Wang ratio is nearly flat at ~1.20; the TB/NS ratio rises from 1.24 (300 keV) to 1.45 (600 keV). The TB curve agrees with the original Tentori–Belloni tabulation to within 0.4%, and the low-temperature NS values are consistent with independent recent evaluations [12], and the parameterized cross sections reproduce the measured ¹¹B(p,α) S-factor [10]. Figure 1 shows σ(E) and ⟨σv⟩(T) for all three. Our NS reactivity, obtained by direct S-factor integration, lies 3.9–11.4% above the widely-used NS-2000 analytic fit over 300–600 keV (see the NS-reactivity note). The ~20% spread in the reactivity is the single largest modeling uncertainty entering the power balance and is propagated explicitly below.
 
 ### II.C Maxwell-preserving Fokker–Planck operator
 
