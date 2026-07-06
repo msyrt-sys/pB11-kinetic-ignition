@@ -243,11 +243,11 @@ def main():
                      f'$\\tau_{{ie}}$={r["tau_ie"]:.2f}s  →  G={r["G"]:.3f}')
         ax.legend(fontsize=9); ax.grid(alpha=0.3)
         ax = axes[i][1]
-        ax.semilogy(r['tt'], r['Pfus'], 'r-', lw=2, label='$P_{fus}$')
-        ax.semilogy(r['tt'], r['Pbrems'], 'b-', lw=2, label='$P_{brems}$')
-        ax.set_xlabel('t (s)'); ax.set_ylabel('power (erg/s/cm³)')
-        ax.set_title(f'transient window (Te<0.9Ti): {r["win_dur"]:.2f}s ; '
-                     f'max inst $P_{{fus}}/P_{{brems}}$={r["max_inst"]:.2f}')
+        ax.semilogy(r['tt'], np.asarray(r['Pfus']) / 1e7, 'r-', lw=2, label='$P_\\mathrm{fus}$')
+        ax.semilogy(r['tt'], np.asarray(r['Pbrems']) / 1e7, 'b-', lw=2, label='$P_\\mathrm{brems}$')
+        ax.set_xlabel('t (s)'); ax.set_ylabel('power (W/cm$^3$)')
+        ax.set_title(f'transient window ($T_e<0.9\\,T_i$): {r["win_dur"]:.2f}s ; '
+                     f'max inst $P_\\mathrm{{fus}}/P_\\mathrm{{brems}}$={r["max_inst"]:.2f}')
         ax.legend(fontsize=9); ax.grid(alpha=0.3, which='both')
     fig.suptitle('Pulsed 0-D: representative trajectories (spark = instantaneous '
                  f'hot-ion, $T_{{e,0}}$={args.te_ratio}$T_{{i,0}}$)', fontsize=12)
@@ -285,7 +285,7 @@ def main():
         ax.set_ylabel('$\\tau_E$ (s)')
         ax.set_title(f'{xs}, $\\eta_{{ch}}$={ech} — G (black=G=1)')
         ax.legend(fontsize=8, loc='upper left')
-        plt.colorbar(cf, ax=ax, label='G = E_fus/(E_spark+E_brems+E_trans)')
+        plt.colorbar(cf, ax=ax, label='$G = E_\\mathrm{fus}/(E_\\mathrm{spark}+E_\\mathrm{brems}+E_\\mathrm{trans})$')
         # island detection within achievable tau_E
         ach = tauE_axis <= TAU_E_ACHIEVABLE
         sub = Gmap[ach, :]
@@ -302,7 +302,7 @@ def main():
                         ('%.3f' % tauE_for_G1) if np.isfinite(tauE_for_G1) else 'none'])
     fig2.suptitle('Pulsed 0-D net energy gain G over the cycle. Blue dotted = '
                   'achievable $\\tau_E$~1s; cyan = $\\tau_{ie}$. '
-                  'G>1 above the achievable line = perfect-confinement artifact.',
+                  '$G>1$ above the achievable line = perfect-confinement artifact.',
                   fontsize=12)
     fig2.tight_layout(rect=(0, 0, 1, 0.96))
     out_g = os.path.join(args.out, 'pulsed_Gmap.png')

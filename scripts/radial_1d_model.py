@@ -233,19 +233,20 @@ def main():
     ax2 = ax[0].twinx()
     ax2.plot(xr, rep['n_alpha'] / 1e12, 'g--', lw=1.5)
     ax2.set_ylabel('$n_\\alpha$ (10¹² cm⁻³)', color='g')
-    ax[1].semilogy(xr, rep['Pfus'], 'r-', lw=2, label='$P_{fus}(r)$')
-    ax[1].semilogy(xr, rep['Pbrems'], 'b-', lw=2, label='$P_{brems}(r)$')
-    ax[1].set_xlabel('r/a'); ax[1].set_ylabel('erg/s/cm³'); ax[1].legend()
+    ax[1].semilogy(xr, np.asarray(rep['Pfus']) / 1e7, 'r-', lw=2, label='$P_\\mathrm{fus}(r)$')
+    ax[1].semilogy(xr, np.asarray(rep['Pbrems']) / 1e7, 'b-', lw=2, label='$P_\\mathrm{brems}(r)$')
+    ax[1].set_xlabel('r/a'); ax[1].set_ylabel('W/cm$^3$'); ax[1].legend()
     ax[1].set_title('local power densities'); ax[1].grid(alpha=0.3, which='both')
     cumfus = np.array([np.trapezoid(rep['Pfus'][:i + 1] * 2 * np.pi * rep['r'][:i + 1],
                                     rep['r'][:i + 1]) for i in range(len(rep['r']))])
-    ax[2].plot(xr, np.abs(rep['Pcross']), 'm-', lw=2,
+    ax[2].plot(xr, np.abs(rep['Pcross']) / 1e7, 'm-', lw=2,
                label='conductive power crossing r')
-    ax[2].plot(xr, cumfus, 'r--', lw=2, label='cumulative $P_{fus}$ inside r')
-    ax[2].set_yscale('log'); ax[2].set_xlabel('r/a'); ax[2].set_ylabel('erg/s (per cm)')
+    ax[2].plot(xr, cumfus / 1e7, 'r--', lw=2, label='cumulative $P_\\mathrm{fus}$ inside r')
+    ax[2].set_yscale('log'); ax[2].set_xlabel('r/a'); ax[2].set_ylabel('W/cm')
     ax[2].legend(fontsize=9); ax[2].grid(alpha=0.3, which='both')
     ax[2].set_title(f'transport vs fusion  '
-                    f'(P_cond/INT P_fus = {rep["transp_over_fus"]:.0f}× @ Bohm,B=10T)')
+                    f'($P_\\mathrm{{cond}}/\\!\\int\\! P_\\mathrm{{fus}}$ = '
+                    f'{rep["transp_over_fus"]:.0f}$\\times$ @ Bohm, B=10 T)')
     fig.suptitle('Representative decoupled profile (Wang, $T_{i,core}$=400 keV, '
                  f'$\\kappa_T$={args.kappa_T}, Bohm $\\chi$, B=10T)', fontsize=12)
     fig.tight_layout(rect=(0, 0, 1, 0.95))
@@ -288,22 +289,23 @@ def main():
         if np.any(Rnet > 0):
             axA.contour(Ti_axis, B_axis, Rnet, levels=[0], colors='k', linewidths=3)
         axA.set_xlabel('$T_{i,core}$ (keV)'); axA.set_ylabel('B (T)')
-        axA.set_title(f'{xs}, {chim}-Bohm: $P_{{net}}/\\int P_{{brems}}$')
+        axA.set_title(f'{xs}, {chim}-Bohm: $P_\\mathrm{{net}}/\\!\\int\\! P_\\mathrm{{brems}}$')
         plt.colorbar(cf, ax=axA)
         axB = axes2[1][j]
         cfb = axB.contourf(Ti_axis, B_axis, np.log10(np.clip(Rtr, 1, 1e7)),
                            levels=np.linspace(0, 6, 25), cmap='inferno')
         axB.set_xlabel('$T_{i,core}$ (keV)'); axB.set_ylabel('B (T)')
-        axB.set_title(f'{xs}, {chim}: log₁₀(P_transport/∫P_fus)')
-        plt.colorbar(cfb, ax=axB, label='log₁₀ ratio')
+        axB.set_title(f'{xs}, {chim}: $\\log_{{10}}(P_\\mathrm{{transport}}/\\!\\int\\! P_\\mathrm{{fus}})$')
+        plt.colorbar(cfb, ax=axB, label='$\\log_{10}$ ratio')
 
         isl = bool(np.any(Rnet > 0))
         minRtr = float(np.min(Rtr))
         summary.append([xs, chim, isl, f'{np.max(Rnet):.4f}', f'{minRtr:.1f}',
                         f'{np.max(Pnet0):.4f}'])
     fig2.suptitle('1-D radial: net power (top) and transport/fusion ratio (bottom). '
-                  'Realistic Bohm/gyro-Bohm B∈[5,20]T. P_transport >> P_fus '
-                  '(bottom, log scale) => spatial decoupling is catastrophic.',
+                  'Realistic Bohm/gyro-Bohm $B\\in[5,20]$ T. '
+                  '$P_\\mathrm{transport} \\gg P_\\mathrm{fus}$ (bottom, log scale): '
+                  'spatial decoupling fails.',
                   fontsize=12)
     fig2.tight_layout(rect=(0, 0, 1, 0.96))
     out_m = os.path.join(args.out, 'radial_Pnet_maps.png')
